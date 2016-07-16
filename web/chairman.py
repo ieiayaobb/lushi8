@@ -8,6 +8,8 @@ class Chairman:
         self.img = ''
         self.num = ''
         self.desc = ''
+        self.type = ''
+        self.avatar = ''
 
     def __repr__(self):
-        return "[" + self.title + "]-[" + self.name + "]-[" + self.href + "]-[" + self.img + "]-[" + self.num + "]-[" + self.desc + "]"
+        return "[" + self.type + "]-[" + self.title + "]-[" + self.name + "]-[" + self.href + "]-[" + self.img + "]-[" + self.avatar + "]-[" + self.num + "]-[" + self.desc + "]"

@@ -1,17 +1,23 @@
 # -*- coding:utf-8 -*-
 
 import json
+import os
 import re
 import requests
 
-from web.chairman import Chairman
-
 import sys
+
+from web.models import Chairman
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
 class Fetcher():
+
+    def __init__(self):
+        self.chairmans = []
+
     def fetch_douyu(self):
         url = 'http://www.douyu.com/directory/game/How'
 
@@ -19,13 +25,14 @@ class Fetcher():
         response = session.get(url)
 
         base_url = 'http://www.douyu.com/'
-
         for each_content in re.finditer('<a href=".*?" title=".*?"  >([\s\S]*?)<\/a>', response.content.decode('utf8')):
             chairman = Chairman()
+            chairman.type = 'douyu'
             group = each_content.group()
             # print group
             href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
             chairman.href = base_url + href
+            # chairman.id = chairman.type + str("_") + href
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
             chairman.title = title
@@ -37,9 +44,9 @@ class Fetcher():
             chairman.name = name
 
             num = re.search('<span class="dy-num fr">.*?</span>', group).group().lstrip('<span class="dy-num fr">').rstrip('</span>')
-            chairman.num = num
+            chairman.set_num(num)
 
-            print chairman
+            self.chairmans.append(chairman)
 
     def fetch_xiongmao(self):
         url = 'http://www.panda.tv/cate/hearthstone'
@@ -48,14 +55,16 @@ class Fetcher():
         response = session.get(url)
 
         base_url = 'http://www.panda.tv/'
-
         for each_content in re.finditer('<a href=".*?" class="video-list-item-wrap"([\s\S]*?)<\/a>', response.content.decode('utf8')):
             chairman = Chairman()
+            chairman.type = 'panda'
             group = each_content.group()
             # print group
 
             href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
             chairman.href = base_url + href
+
+            # chairman.id = chairman.type + str("_") + href
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
             chairman.title = title
@@ -69,9 +78,9 @@ class Fetcher():
 
             num = re.search('<span class="video-number">.*?</span>', group).group().lstrip(
                 '<span class="video-number">').rstrip('</span>')
-            chairman.num = num
+            chairman.set_num(num)
 
-            print chairman
+            self.chairmans.append(chairman)
 
     def fetch_quanmin(self):
         url = 'http://www.quanmin.tv/json/categories/heartstone/list.json?t=24468018'
@@ -79,9 +88,20 @@ class Fetcher():
         session = requests.Session()
         response = session.get(url)
 
+        base_url = 'http://www.quanmin.tv/v/'
         for each in response.json()['data']:
             chairman = Chairman()
-            print each
+            chairman.type = 'quanmin'
+
+            # chairman.id = chairman.type + str("_") + each['uid']
+
+            chairman.title = each['title']
+            chairman.href = base_url + each['uid']
+            chairman.img = each['thumb']
+            chairman.name = each['nick']
+            chairman.num = str(each['follow'])
+
+            self.chairmans.append(chairman)
 
 
     def fetch_zhanqi(self):
@@ -91,31 +111,35 @@ class Fetcher():
         response = session.get(url)
 
         base_url = 'http://www.zhanqi.tv/'
-
         for each_content in re.finditer('<a href=".*?" class="js-jump-link">([\s\S]*?)<\/a>',
                                         response.content.decode('utf8')):
-            chairman = Chairman()
             group = each_content.group()
-            # print group
-
             href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
-            chairman.href = base_url + href
+            if href != '${url}':
+                chairman = Chairman()
+                chairman.type = 'zhanqi'
 
-            title = re.search('<span class="name">.*?</span>', group).group().lstrip('<span class="name">').rstrip('</span>')
-            chairman.title = title
+                # print group
 
-            img = re.search('<img src=".*?"', group).group().lstrip('<img src="').rstrip('"')
-            chairman.img = img
+                chairman.href = base_url + href
 
-            name = re.search('<span class="anchor anchor-to-cut dv">.*?</span>', group).group().lstrip(
-                '<span class="anchor anchor-to-cut dv">').rstrip('</span>')
-            chairman.name = name
+                # chairman.id = chairman.type + str("_") + href
 
-            num = re.search('<span class="dv">.*?</span>', group).group().lstrip(
-                '<span class="dv">').rstrip('</span>')
-            chairman.num = num
+                title = re.search('<span class="name">.*?</span>', group).group().lstrip('<span class="name">').rstrip('</span>')
+                chairman.title = title
 
-            print chairman
+                img = re.search('<img src=".*?"', group).group().lstrip('<img src="').rstrip('"')
+                chairman.img = img
+
+                name = re.search('<span class="anchor anchor-to-cut dv">.*?</span>', group).group().lstrip(
+                    '<span class="anchor anchor-to-cut dv">').rstrip('</span>')
+                chairman.name = name
+
+                num = re.search('<span class="dv">.*?</span>', group).group().lstrip(
+                    '<span class="dv">').rstrip('</span>')
+                chairman.set_num(num)
+
+                self.chairmans.append(chairman)
 
     # def fetch_huomao(self):
     #     url = 'http://www.zhanqi.tv/chns/blizzard/how'
@@ -145,7 +169,7 @@ class Fetcher():
     #
     #         num = re.search('<span class="dv">.*?</span>', group).group().lstrip(
     #             '<span class="dv">').rstrip('</span>')
-    #         chairman.num = num
+    #         chairman.set_num(num)
     #
     #         print chairman
 
@@ -158,11 +182,15 @@ class Fetcher():
         for each_content in re.finditer('<a href=".*? class="livecard"([\s\S]*?)<\/a>',
                                         response.content.decode('utf8')):
             chairman = Chairman()
+            chairman.type = 'longzhu'
+
             group = each_content.group()
-            print group
+            # print group
 
             href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
             chairman.href = href
+
+            # chairman.id = chairman.type + str("_") + href
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
             chairman.title = title
@@ -176,9 +204,9 @@ class Fetcher():
 
             num = re.search('<span class="livecard-meta-item-text">.*?</span>', group).group().lstrip(
                 '<span class="livecard-meta-item-text">').rstrip('</span>')
-            chairman.num = num
+            chairman.set_num(num)
 
-            print chairman
+            self.chairmans.append(chairman)
 
     def fetch_cc(self):
         url = 'http://cc.163.com/category/list/?gametype=1005'
@@ -190,28 +218,37 @@ class Fetcher():
 
         for each_content in re.finditer('<li class="game-item js-game-item">([\s\S]*?)<\/li>',
                                         response.content.decode('utf8')):
-            chairman = Chairman()
             group = each_content.group()
-            print group
-
             href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
-            chairman.href = base_url + href
 
-            title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
-            chairman.title = title
+            if href != '/{[value.ccid]}/':
+                chairman = Chairman()
+                chairman.type = 'cc'
 
-            img = re.search('<img src=".*?"', group).group().lstrip('<img src="').rstrip('"')
-            chairman.img = img
+                # print group
 
-            name = re.search('<span class="game-item-nick nick" title=".*?">', group).group().lstrip(
-                '<span class="game-item-nick nick" title="').rstrip('">')
-            chairman.name = name
+                chairman.href = base_url + href
 
-            # num = re.search('<span class="def-font visitor"></span>.*?</span>', group).group().lstrip(
-            #     '<span class="def-font visitor"></span>').rstrip('</span>')
-            # chairman.num = num
+                # chairman.id = chairman.type + str("_") + href
 
-            print chairman
+                title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
+                chairman.title = title
+
+                img = re.search('<img src=".*?"', group).group().lstrip('<img src="').rstrip('"')
+                chairman.img = img
+
+                name = re.search('<span class="game-item-nick nick" title=".*?">', group).group().lstrip(
+                    '<span class="game-item-nick nick" title="').rstrip('">')
+                chairman.name = name
+
+                num = re.search('<span class="def-font visitor"></span>([\s\S]*?)</span>', group).group().lstrip(
+                    '<span class="def-font visitor"></span>').rstrip('</span>')
+                chairman.set_num(num)
+
+                self.chairmans.append(chairman)
+
+    def fetch_huya(self):
+        pass
 
 if __name__=="__main__":
     fetcher = Fetcher()

@@ -1,2 +1,4 @@
 .idea/
 *.pyc
+web/migrations/
+db.sqlite3

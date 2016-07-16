@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>炉石汇</title>
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <style>
+        body {
+            font-family: "helvetica neue",arial,sans-serif;
+            font-size: 14px;
+            background-color: #edece9;
+        }
+
+        .chairman-wrapper {
+            text-decoration: none;
+
+        }
+        .chairman {
+            color: #444;
+            margin: 10px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,.3);
+        }
+        .chairman:hover {
+            box-shadow: 4px 4px 5px rgba(0,128,128,.3);
+        }
+
+        .chairman-img {
+        }
+
+        .name {
+            padding: 10px;
+        }
+        .title {
+            padding: 10px;
+        }
+        .num {
+            padding: 10px;
+        }
+
+        .type {
+            margin-top:10px;
+        }
+
+        .douyu {
+            background-image: url('/static/img/douyu.jpg');
+            width: 121px;
+            height: 75px;
+            float:left;
+        }
+
+        .cc {
+            background-image: url('/static/img/cc.png');
+            width: 155px;
+            height: 50px;
+            float:left;
+        }
+
+        .huomao {
+            background-image: url('/static/img/huomao.png');
+            width: 110px;
+            height: 40px;
+            float:left;
+        }
+
+        .longzhu {
+            background-image: url('/static/img/longzhu.jpg');
+            width: 121px;
+            height: 74px;
+            float:left;
+        }
+
+        .quanmin {
+            background-image: url('/static/img/quanmin.png');
+            width: 120px;
+            height: 54px;
+            float:left;
+        }
+
+        .panda {
+            background-image: url('/static/img/panda.jpg');
+            width: 120px;
+            height: 75px;
+            float:left;
+        }
+
+        .zhanqi {
+            background-image: url('/static/img/zhanqi.jpg');
+            width: 121px;
+            height: 75px;
+            float:left;
+        }
+    </style>
+</head>
+<body>
+    {% for chairman in chairmans %}
+        <a href="{{ chairman.href }}" class="chairman-wrapper">
+            <div class="pure-g chairman">
+                <div class="pure-u-1-5">
+                    <img class="pure-img chairman-img" src="{{ chairman.img }}">
+                </div>
+                <div class="pure-u-2-5">
+                    <div class="name">{{ chairman.name }}</div>
+                    <div class="title">{{ chairman.title }}</div>
+                </div>
+                <div class="pure-u-1-5">
+                    <span class="type {{ chairman.type }}"></span>
+                </div>
+                <div class="pure-u-1-5">
+                    <div class="num">{{ chairman.num }}人</div>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</body>
+</html>
