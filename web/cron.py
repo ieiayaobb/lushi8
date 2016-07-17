@@ -13,7 +13,7 @@ from web.fetch import Fetcher
 
 logger = logging.getLogger(__name__)
 
-@kronos.register('*/1 * * * *')
+@kronos.register('*/30 * * * *')
 def refresh_rank():
     fetcher = Fetcher()
     fetcher.fetch_cc()
