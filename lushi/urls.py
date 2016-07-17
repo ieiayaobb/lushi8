@@ -23,26 +23,26 @@ import web.urls
 from web.models import Chairman
 
 
-class ChairmanSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Chairman
-        # fields = ('url', 'username', 'email', 'is_staff')
-
-
-# ViewSets define the view behavior.
-class ChairmanViewSet(viewsets.ModelViewSet):
-    queryset = Chairman.objects.all().order_by('-num')
-    serializer_class = ChairmanSerializer
-
-
-# Routers provide a way of automatically determining the URL conf.
-router = routers.DefaultRouter()
-router.register(r'chairmans', ChairmanViewSet)
+# class ChairmanSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = Chairman
+#         # fields = ('url', 'username', 'email', 'is_staff')
+#
+#
+# # ViewSets define the view behavior.
+# class ChairmanViewSet(viewsets.ModelViewSet):
+#     queryset = Chairman.objects.all().order_by('-num')
+#     serializer_class = ChairmanSerializer
+#
+#
+# # Routers provide a way of automatically determining the URL conf.
+# router = routers.DefaultRouter()
+# router.register(r'chairmans', ChairmanViewSet)
 
 
 urlpatterns = [
-    url(r'^api/', include(router.urls)),
+    # url(r'^api/', include(router.urls)),
     url(r'^', include(web.urls)),
 
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

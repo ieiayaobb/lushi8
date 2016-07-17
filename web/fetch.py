@@ -32,7 +32,7 @@ class Fetcher():
             # print group
             href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
             chairman.href = base_url + href
-            # chairman.id = chairman.type + str("_") + href
+            chairman.id = chairman.type + str("_") + href.lstrip('/')
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
             chairman.title = title
@@ -64,7 +64,7 @@ class Fetcher():
             href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
             chairman.href = base_url + href
 
-            # chairman.id = chairman.type + str("_") + href
+            chairman.id = chairman.type + str("_") + href.lstrip('/')
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
             chairman.title = title
@@ -93,13 +93,13 @@ class Fetcher():
             chairman = Chairman()
             chairman.type = 'quanmin'
 
-            # chairman.id = chairman.type + str("_") + each['uid']
+            chairman.id = chairman.type + str("_") + each['uid']
 
             chairman.title = each['title']
             chairman.href = base_url + each['uid']
             chairman.img = each['thumb']
             chairman.name = each['nick']
-            chairman.num = str(each['follow'])
+            chairman.set_num(str(each['follow']))
 
             self.chairmans.append(chairman)
 
@@ -123,7 +123,7 @@ class Fetcher():
 
                 chairman.href = base_url + href
 
-                # chairman.id = chairman.type + str("_") + href
+                chairman.id = chairman.type + str("_") + href.lstrip('/')
 
                 title = re.search('<span class="name">.*?</span>', group).group().lstrip('<span class="name">').rstrip('</span>')
                 chairman.title = title
@@ -187,10 +187,10 @@ class Fetcher():
             group = each_content.group()
             # print group
 
-            href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
+            href = re.search('href=".*?"', group).group().lstrip('href=').strip('"')
             chairman.href = href
 
-            # chairman.id = chairman.type + str("_") + href
+            # chairman.id = chairman.type + str("_") + href.replace('/', '').lstrip('http://star.longzhu.com/').rstrip('?from=challcontent')
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
             chairman.title = title
