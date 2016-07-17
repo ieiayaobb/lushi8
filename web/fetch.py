@@ -173,6 +173,40 @@ class Fetcher():
     #
     #         print chairman
 
+    def fetch_huya(self):
+        url = 'http://www.huya.com/g/hearthstone'
+
+        session = requests.Session()
+        response = session.get(url)
+
+        for each_content in re.finditer('<li class="video-list-item" data-boxDataInfo=\'\'>([\s\S]*?)<\/li>',
+                                        response.content.decode('utf8')):
+            chairman = Chairman()
+            chairman.type = 'huya'
+
+            group = each_content.group()
+
+            href = re.search('href=".*?"', group).group().lstrip('href=').strip('"')
+            chairman.href = href
+            chairman.id = chairman.type + str("_") + href.lstrip('http://www.huya.com/')
+
+            title = re.search('>.*?</a>', group).group().lstrip('eid="click/gamelist/card/hearthstone" eid_desc="点击/游戏列表页/卡片/炉石传说">').rstrip(
+                '</a>')
+            chairman.title = title
+        #
+            img = re.search('<img class="pic" src=".*?"', group).group().lstrip('<img class="pic" src="').rstrip('"')
+            chairman.img = img
+        #
+            name = re.search('<i class="nick" title=".*?">', group).group().lstrip(
+                '<i class="nick" title="').rstrip('"')
+            chairman.name = name
+
+            num = re.search('<i class="js-num">.*?</i>', group).group().lstrip(
+                '<i class="js-num">').rstrip('</i>')
+            chairman.set_num(num)
+
+            self.chairmans.append(chairman)
+
     def fetch_longzhu(self):
         url = 'http://longzhu.com/channels/hs?from=figame'
 
@@ -247,9 +281,6 @@ class Fetcher():
 
                 self.chairmans.append(chairman)
 
-    def fetch_huya(self):
-        pass
-
 if __name__=="__main__":
     fetcher = Fetcher()
     # fetcher.fetch_douyu()
@@ -258,4 +289,5 @@ if __name__=="__main__":
     # fetcher.fetch_zhanqi()
     # fetcher.fetch_huomao()
     # fetcher.fetch_longzhu()
-    fetcher.fetch_cc()
+    # fetcher.fetch_cc()
+    fetcher.fetch_huya()

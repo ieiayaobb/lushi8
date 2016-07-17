@@ -24,6 +24,7 @@ def fetch(request):
     fetcher.fetch_quanmin()
     fetcher.fetch_xiongmao()
     fetcher.fetch_zhanqi()
+    fetcher.fetch_huya()
 
     for chairman in fetcher.chairmans:
         if chairman.is_valid():
