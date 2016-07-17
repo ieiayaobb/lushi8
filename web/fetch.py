@@ -198,7 +198,7 @@ class Fetcher():
             chairman.img = img
         #
             name = re.search('<i class="nick" title=".*?">', group).group().lstrip(
-                '<i class="nick" title="').rstrip('"')
+                '<i class="nick" title="').rstrip('">')
             chairman.name = name
 
             num = re.search('<i class="js-num">.*?</i>', group).group().lstrip(
