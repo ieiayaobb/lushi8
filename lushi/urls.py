@@ -1,3 +1,5 @@
+# coding=utf-8
+
 """lushi URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -13,36 +15,44 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.conf.urls import url, include, patterns
 from django.contrib import admin
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import serializers, viewsets, routers
+from rest_framework.renderers import JSONRenderer
+from rest_framework.routers import DefaultRouter, BaseRouter, SimpleRouter
 
 import web.urls
 
 # Serializers define the API representation.
-from web.models import Chairman
+from web import views
+from web.views import ChairmanViewSet
+
+chairman_list = ChairmanViewSet.as_view({
+    'get': 'list'
+})
+chairman_detail = ChairmanViewSet.as_view({
+    'get': 'retrieve'
+})
+#
+# class RediscoRouter(DefaultRouter):
+#     def get_default_base_name(self, viewset):
+#         return viewset.queryset.model_class.object_name.lower()
+#
+# router = RediscoRouter()
+# router.register(r'chairmans', views.ChairmanViewSet)
 
 
-# class ChairmanSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Chairman
-#         # fields = ('url', 'username', 'email', 'is_staff')
-#
-#
-# # ViewSets define the view behavior.
-# class ChairmanViewSet(viewsets.ModelViewSet):
-#     queryset = Chairman.objects.all().order_by('-num')
-#     serializer_class = ChairmanSerializer
-#
-#
-# # Routers provide a way of automatically determining the URL conf.
-# router = routers.DefaultRouter()
-# router.register(r'chairmans', ChairmanViewSet)
 
 
 urlpatterns = [
     # url(r'^api/', include(router.urls)),
-    url(r'^', include(web.urls)),
 
-    # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^', include(web.urls)),
+    url(r'^api/$', views.api_root),
+    url(r'^api/chairmans/$', chairman_list, name='chairman-list'),
+    url(r'^api/chairmans/(?P<id>[A-Za-z0-9_]+)/$', chairman_detail, name='chairman-detail'),
+
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

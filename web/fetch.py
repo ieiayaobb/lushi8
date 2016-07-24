@@ -32,7 +32,7 @@ class Fetcher():
             # print group
             href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
             chairman.href = base_url + href
-            chairman.id = chairman.type + str("_") + href.lstrip('/')
+            chairman.set_id(chairman.type + str("_") + href.lstrip('/'))
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
             chairman.title = title
@@ -64,7 +64,7 @@ class Fetcher():
             href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
             chairman.href = base_url + href
 
-            chairman.id = chairman.type + str("_") + href.lstrip('/')
+            chairman.set_id(chairman.type + str("_") + href.lstrip('/'))
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
             chairman.title = title
@@ -93,7 +93,7 @@ class Fetcher():
             chairman = Chairman()
             chairman.type = 'quanmin'
 
-            chairman.id = chairman.type + str("_") + each['uid']
+            chairman.set_id(chairman.type + str("_") + each['uid'])
 
             chairman.title = each['title']
             chairman.href = base_url + each['uid']
@@ -123,7 +123,7 @@ class Fetcher():
 
                 chairman.href = base_url + href
 
-                chairman.id = chairman.type + str("_") + href.lstrip('/')
+                chairman.set_id(chairman.type + str("_") + href.lstrip('/'))
 
                 title = re.search('<span class="name">.*?</span>', group).group().lstrip('<span class="name">').rstrip('</span>')
                 chairman.title = title
@@ -188,7 +188,7 @@ class Fetcher():
 
             href = re.search('href=".*?"', group).group().lstrip('href=').strip('"')
             chairman.href = href
-            chairman.id = chairman.type + str("_") + href.lstrip('http://www.huya.com/')
+            chairman.set_id(chairman.type + str("_") + href.lstrip('http://www.huya.com/'))
 
             title = re.search('>.*?</a>', group).group().lstrip('eid="click/gamelist/card/hearthstone" eid_desc="点击/游戏列表页/卡片/炉石传说">').rstrip(
                 '</a>')
@@ -224,7 +224,7 @@ class Fetcher():
             href = re.search('href=".*?"', group).group().lstrip('href=').strip('"')
             chairman.href = href
 
-            # chairman.id = chairman.type + str("_") + href.replace('/', '').lstrip('http://star.longzhu.com/').rstrip('?from=challcontent')
+            chairman.set_id(chairman.type + str("_") + href.replace('/', '').lstrip('http://star.longzhu.com/').rstrip('?from=challcontent'))
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
             chairman.title = title
@@ -253,9 +253,9 @@ class Fetcher():
         for each_content in re.finditer('<li class="game-item js-game-item">([\s\S]*?)<\/li>',
                                         response.content.decode('utf8')):
             group = each_content.group()
-            href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
+            href = re.search('href=".*?"', group).group().lstrip('href="/').rstrip('/"')
 
-            if href != '/{[value.ccid]}/':
+            if href != '{[value.ccid]}':
                 chairman = Chairman()
                 chairman.type = 'cc'
 
@@ -263,7 +263,7 @@ class Fetcher():
 
                 chairman.href = base_url + href
 
-                # chairman.id = chairman.type + str("_") + href
+                chairman.set_id(chairman.type + str("_") + href)
 
                 title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
                 chairman.title = title
