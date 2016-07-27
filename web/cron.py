@@ -4,6 +4,7 @@ import datetime
 import os
 
 import kronos
+import redis
 from django.core.cache import cache
 import time
 
@@ -15,6 +16,9 @@ logger = logging.getLogger(__name__)
 
 @kronos.register('*/30 * * * *')
 def refresh_rank():
+    redis_instance = redis.StrictRedis(db=0)
+    redis_instance.flushall()
+
     fetcher = Fetcher()
     fetcher.fetch_cc()
     fetcher.fetch_douyu()
