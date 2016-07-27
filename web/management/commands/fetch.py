@@ -20,8 +20,10 @@ class Command(BaseCommand):
         fetcher.fetch_zhanqi()
 
         for chairman in fetcher.chairmans:
-            if chairman.is_valid():
-                chairman.save()
-            else:
-                print chairman.errors
-
+            try:
+                if chairman.is_valid():
+                    chairman.save()
+                else:
+                    print chairman.errors
+            except Exception, e:
+                print e
