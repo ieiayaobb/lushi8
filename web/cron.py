@@ -14,7 +14,7 @@ from web.fetch import Fetcher
 
 logger = logging.getLogger(__name__)
 
-@kronos.register('*/30 * * * *')
+@kronos.register('0 */1 * * *')
 def refresh_rank():
     redis_instance = redis.StrictRedis(db=0)
     redis_instance.flushall()
@@ -26,6 +26,7 @@ def refresh_rank():
     fetcher.fetch_quanmin()
     fetcher.fetch_xiongmao()
     fetcher.fetch_zhanqi()
+    fetcher.fetch_huya()
 
     for chairman in fetcher.chairmans:
         if chairman.is_valid():

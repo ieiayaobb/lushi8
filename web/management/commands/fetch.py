@@ -24,6 +24,7 @@ class Command(BaseCommand):
         fetcher.fetch_quanmin()
         fetcher.fetch_xiongmao()
         fetcher.fetch_zhanqi()
+        fetcher.fetch_huya()
 
         for chairman in fetcher.chairmans:
             try:
