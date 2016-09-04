@@ -5,6 +5,9 @@ import json
 
 from redisco import models
 
+import redisco
+redisco.connection_setup(host='10.66.183.211', db=7, password='crs-qqptkhei:sanpang315')
+
 # Create your models here.
 # class Chairman(models.Model):
 #     # id = models.CharField(primary_key=True, max_length=128)
