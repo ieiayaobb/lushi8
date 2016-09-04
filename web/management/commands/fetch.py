@@ -15,7 +15,7 @@ sys.setdefaultencoding("utf-8")
 class Command(BaseCommand):
     def handle(self, *args, **options):
         redis_instance = redis.StrictRedis(host='10.66.183.211', db=7, password='crs-qqptkhei:sanpang315')
-        # redis_instance.flushdb()
+        redis_instance.delete("Chairman:*")
 
         fetcher = Fetcher()
         fetcher.fetch_cc()
