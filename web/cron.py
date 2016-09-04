@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 @kronos.register('0 */1 * * *')
 def refresh_rank():
     redis_instance = redis.StrictRedis(host='10.66.183.211', db=7, password='crs-qqptkhei:sanpang315')
-    redis_instance.flushall()
+    redis_instance.flushdb()
 
     fetcher = Fetcher()
     fetcher.fetch_cc()
