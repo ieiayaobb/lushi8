@@ -6,7 +6,11 @@ import json
 from redisco import models
 
 import redisco
-redisco.connection_setup(host='10.66.183.211', db=7, password='crs-qqptkhei:sanpang315')
+
+from lushi.settings import REDIS_HOST, REDIS_DB, REDIS_PASSWORD
+
+redisco.connection_setup(host=REDIS_HOST, db=REDIS_DB, password=REDIS_PASSWORD)
+# redisco.connection_setup(host='127.0.0.1', db=7)
 
 # Create your models here.
 # class Chairman(models.Model):

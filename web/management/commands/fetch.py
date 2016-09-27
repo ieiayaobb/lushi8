@@ -12,9 +12,11 @@ import redis
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        redis_instance = redis.StrictRedis(host='10.66.183.211', db=7, password='crs-qqptkhei:sanpang315')
+        redis_instance = redis.StrictRedis(host=REDIS_HOST, db=REDIS_DB, password=REDIS_PASSWORD)
+        # redis_instance = redis.StrictRedis(host='127.0.0.1', db=7)
         for key in redis_instance.scan_iter("Chairman:*"):
             redis_instance.delete(key)
 

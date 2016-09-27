@@ -19,13 +19,16 @@ class Fetcher():
         self.chairmans = []
 
     def fetch_douyu(self):
+        print 'fetch douyu'
+
         url = 'http://www.douyu.com/directory/game/How'
 
         session = requests.Session()
         response = session.get(url)
 
         base_url = 'http://www.douyu.com/'
-        for each_content in re.finditer('<a href=".*?" title=".*?"  >([\s\S]*?)<\/a>', response.content.decode('utf8')):
+        # print response.content.decode('utf8')
+        for each_content in re.finditer('<a.*?href=".*?" title=".*?"  >([\s\S]*?)<\/a>', response.content.decode('utf8')):
             chairman = Chairman()
             chairman.type = 'douyu'
             group = each_content.group()
@@ -49,6 +52,8 @@ class Fetcher():
             self.chairmans.append(chairman)
 
     def fetch_xiongmao(self):
+        print 'fetch xiongmao'
+
         url = 'http://www.panda.tv/cate/hearthstone'
 
         session = requests.Session()
@@ -83,6 +88,8 @@ class Fetcher():
             self.chairmans.append(chairman)
 
     def fetch_quanmin(self):
+        print 'fetch quanmin'
+
         url = 'http://www.quanmin.tv/json/categories/heartstone/list.json?t=24468018'
 
         session = requests.Session()
@@ -105,6 +112,8 @@ class Fetcher():
 
 
     def fetch_zhanqi(self):
+        print 'fetch zhangqi'
+
         url = 'http://www.zhanqi.tv/chns/blizzard/how'
 
         session = requests.Session()
@@ -174,6 +183,8 @@ class Fetcher():
     #         print chairman
 
     def fetch_huya(self):
+        print 'fetch huya'
+
         url = 'http://www.huya.com/g/hearthstone'
 
         session = requests.Session()
@@ -208,11 +219,13 @@ class Fetcher():
             self.chairmans.append(chairman)
 
     def fetch_longzhu(self):
+        print 'fetch longzhu'
+
         url = 'http://longzhu.com/channels/hs?from=figame'
 
         session = requests.Session()
         response = session.get(url)
-
+        # print response.content.decode('utf8')
         for each_content in re.finditer('<a href=".*? class="livecard"([\s\S]*?)<\/a>',
                                         response.content.decode('utf8')):
             chairman = Chairman()
@@ -243,6 +256,7 @@ class Fetcher():
             self.chairmans.append(chairman)
 
     def fetch_cc(self):
+        print 'fetch cc'
         url = 'http://cc.163.com/category/list/?gametype=1005'
 
         session = requests.Session()
@@ -281,13 +295,15 @@ class Fetcher():
 
                 self.chairmans.append(chairman)
 
-if __name__=="__main__":
+if __name__ == "__main__":
     fetcher = Fetcher()
     # fetcher.fetch_douyu()
     # fetcher.fetch_xiongmao()
     # fetcher.fetch_quanmin()
     # fetcher.fetch_zhanqi()
     # fetcher.fetch_huomao()
-    # fetcher.fetch_longzhu()
+    fetcher.fetch_longzhu()
     # fetcher.fetch_cc()
-    fetcher.fetch_huya()
+    # fetcher.fetch_huya()
+
+    print fetcher.chairmans
