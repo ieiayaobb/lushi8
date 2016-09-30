@@ -26,14 +26,21 @@ def api_root(request, format=None):
         'chairmans': reverse('chairman-list', request=request, format=format),
     })
 
+
 def _convert_chairman(ele):
     chairman = Chairman(ele=ele)
     return chairman
 
+
 def get_index(request):
     # response = requests.get('http://127.0.0.1:8000/api/chairmans/')
     # chairmans = response.json()
-    chairmans = Chairman.objects.all().order('-num')
+
+    if 'type' in request.GET:
+        type = request.GET['type']
+        chairmans = Chairman.objects.filter(type=type).order('-num')
+    else:
+        chairmans = Chairman.objects.all().order('-num')
 
     # chairmans_set = SortedSet('chairmans_set')
     # chairmans_hash = SortedSet('chairmans_hash')
