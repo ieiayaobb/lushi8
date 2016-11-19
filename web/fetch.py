@@ -28,7 +28,7 @@ class Fetcher():
 
         base_url = 'http://www.douyu.com/'
         # print response.content.decode('utf8')
-        for each_content in re.finditer('<a.*?href=".*?" title=".*?"  >([\s\S]*?)<\/a>', response.content.decode('utf8')):
+        for each_content in re.finditer('<a data-rid=\'.*?\' data-tid=\'.*?\' data-sid=\'.*?\' href=".*?" title=".*?" >([\s\S]*?)<\/a>', response.content.decode('utf8')):
             chairman = Chairman()
             chairman.type = 'douyu'
             group = each_content.group()
@@ -189,14 +189,14 @@ class Fetcher():
 
         session = requests.Session()
         response = session.get(url)
-
-        for each_content in re.finditer('<li class="video-list-item" data-boxDataInfo=\'\'>([\s\S]*?)<\/li>',
+        # print response.content
+        for each_content in re.finditer('<li class="video-list-item" data-lp=".*?">([\s\S]*?)<\/li>',
                                         response.content.decode('utf8')):
             chairman = Chairman()
             chairman.type = 'huya'
 
             group = each_content.group()
-
+            # print group
             href = re.search('href=".*?"', group).group().lstrip('href=').strip('"')
             chairman.href = href
             chairman.set_id(chairman.type + str("_") + href.lstrip('http://www.huya.com/'))
@@ -302,8 +302,8 @@ if __name__ == "__main__":
     # fetcher.fetch_quanmin()
     # fetcher.fetch_zhanqi()
     # fetcher.fetch_huomao()
-    fetcher.fetch_longzhu()
+    # fetcher.fetch_longzhu()
     # fetcher.fetch_cc()
-    # fetcher.fetch_huya()
+    fetcher.fetch_huya()
 
     print fetcher.chairmans

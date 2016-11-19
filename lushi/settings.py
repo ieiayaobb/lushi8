@@ -129,6 +129,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 
-REDIS_HOST = '10.66.183.211'
-REDIS_DB = 7
+# REDIS_HOST = '10.66.183.211'
 REDIS_PASSWORD = 'crs-qqptkhei:sanpang315'
+REDIS_HOST = '127.0.0.1'
+REDIS_PASSWORD = ''
+REDIS_DB = 7
+
