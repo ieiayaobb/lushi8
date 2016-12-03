@@ -66,7 +66,7 @@ class Fetcher():
             group = each_content.group()
             # print group
 
-            href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
+            href = re.search('href=".*?"', group).group().lstrip('href="/').rstrip('"')
             chairman.href = base_url + href
 
             chairman.set_id(chairman.type + str("_") + href.lstrip('/'))
