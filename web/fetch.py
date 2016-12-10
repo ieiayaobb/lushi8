@@ -29,27 +29,30 @@ class Fetcher():
         base_url = 'http://www.douyu.com/'
         # print response.content.decode('utf8')
         for each_content in re.finditer('<a data-rid=\'.*?\' data-tid=\'.*?\' data-sid=\'.*?\' href=".*?" title=".*?" >([\s\S]*?)<\/a>', response.content.decode('utf8')):
-            chairman = Chairman()
-            chairman.type = 'douyu'
-            group = each_content.group()
-            # print group
-            href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
-            chairman.href = base_url + href
-            chairman.set_id(chairman.type + str("_") + href.lstrip('/'))
+            try:
+                chairman = Chairman()
+                chairman.type = 'douyu'
+                group = each_content.group()
+                # print group
+                href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
+                chairman.href = base_url + href
+                chairman.set_id(chairman.type + str("_") + href.lstrip('/'))
 
-            title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
-            chairman.title = title
+                title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
+                chairman.title = title
 
-            img = re.search('data-original=".*?"', group).group().lstrip('data-original="').rstrip('"')
-            chairman.img = img
+                img = re.search('data-original=".*?"', group).group().lstrip('data-original="').rstrip('"')
+                chairman.img = img
 
-            name = re.search('<span class="dy-name ellipsis fl">.*?</span>', group).group().lstrip('<span class="dy-name ellipsis fl">').rstrip('</span>')
-            chairman.name = name
+                name = re.search('<span class="dy-name ellipsis fl">.*?</span>', group).group().lstrip('<span class="dy-name ellipsis fl">').rstrip('</span>')
+                chairman.name = name
 
-            num = re.search('<span class="dy-num fr">.*?</span>', group).group().lstrip('<span class="dy-num fr">').rstrip('</span>')
-            chairman.set_num(num)
+                num = re.search('<span class="dy-num fr.*?</span>', group).group().lstrip('<span class="dy-num fr">').rstrip('</span>')
+                chairman.set_num(num)
 
-            self.chairmans.append(chairman)
+                self.chairmans.append(chairman)
+            except Exception, e:
+                print group
 
     def fetch_xiongmao(self):
         print 'fetch xiongmao'
