@@ -28,7 +28,7 @@ class Fetcher():
 
         base_url = 'http://www.douyu.com/'
         # print response.content.decode('utf8')
-        for each_content in re.finditer('<a data-rid=\'.*?\' data-tid=\'.*?\' data-sid=\'.*?\' href=".*?" title=".*?" >([\s\S]*?)<\/a>', response.content.decode('utf8')):
+        for each_content in re.finditer('<a class="play-list-link" .*?>([\s\S]*?)<\/a>', response.content.decode('utf8')):
             try:
                 chairman = Chairman()
                 chairman.type = 'douyu'
@@ -193,7 +193,7 @@ class Fetcher():
         session = requests.Session()
         response = session.get(url)
         # print response.content
-        for each_content in re.finditer('<li class="video-list-item" data-lp=".*?">([\s\S]*?)<\/li>',
+        for each_content in re.finditer('<li class="game-live-item">([\s\S]*?)<\/li>',
                                         response.content.decode('utf8')):
             chairman = Chairman()
             chairman.type = 'huya'
@@ -204,13 +204,13 @@ class Fetcher():
             chairman.href = href
             chairman.set_id(chairman.type + str("_") + href.lstrip('http://www.huya.com/'))
 
-            title = re.search('>.*?</a>', group).group().lstrip('eid="click/gamelist/card/hearthstone" eid_desc="点击/游戏列表页/卡片/炉石传说">').rstrip(
-                '</a>')
+            title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
             chairman.title = title
         #
-            img = re.search('<img class="pic" src=".*?"', group).group().lstrip('<img class="pic" src="').rstrip('"')
+            img = re.search('<img class="pic" data-original=".*?"', group).group().lstrip('<img class="pic" data-original="').rstrip('"')
+            # print img
             chairman.img = img
-        #
+
             name = re.search('<i class="nick" title=".*?">', group).group().lstrip(
                 '<i class="nick" title="').rstrip('">')
             chairman.name = name
