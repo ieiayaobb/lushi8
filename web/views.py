@@ -1,7 +1,6 @@
 import requests
 from django.http import Http404
-from django.shortcuts import render, render_to_response
-
+from django.shortcuts import render, render_to_response, redirect
 
 # Create your views here.
 from django.template import RequestContext
@@ -78,4 +77,4 @@ def fetch(request):
         except Exception, e:
             print e
 
-    return get_index(request)
+    return redirect("/")
