@@ -7,13 +7,15 @@ import requests
 
 import sys
 
-from web.models import Chairman
-
 reload(sys)
 sys.setdefaultencoding('utf-8')
+import leancloud
+
+leancloud.init("zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz", "2pUtBJhLoxTTSaSoETQb4qfA")
 
 
 class Fetcher():
+    Chairman = leancloud.Object.extend('Chairman')
 
     def __init__(self):
         self.chairmans = []
@@ -30,25 +32,30 @@ class Fetcher():
         # print response.content.decode('utf8')
         for each_content in re.finditer('<a class="play-list-link" .*?>([\s\S]*?)<\/a>', response.content.decode('utf8')):
             try:
-                chairman = Chairman()
+                chairman = self.Chairman()
                 chairman.type = 'douyu'
                 group = each_content.group()
                 # print group
                 href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
-                chairman.href = base_url + href
-                chairman.set_id(chairman.type + str("_") + href.lstrip('/'))
+                chairman.set("href", base_url + href)
+
+                chairman.set("id", chairman.type + str("_") + href.lstrip('/'))
 
                 title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
-                chairman.title = title
+                chairman.set("title", title)
 
                 img = re.search('data-original=".*?"', group).group().lstrip('data-original="').rstrip('"')
-                chairman.img = img
+                chairman.set("img", img)
 
                 name = re.search('<span class="dy-name ellipsis fl">.*?</span>', group).group().lstrip('<span class="dy-name ellipsis fl">').rstrip('</span>')
-                chairman.name = name
+                chairman.set("name", name)
 
                 num = re.search('<span class="dy-num fr.*?</span>', group).group().lstrip('<span class="dy-num fr">').rstrip('</span>')
-                chairman.set_num(num)
+
+                if '万' in num:
+                    chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
+                else:
+                    chairman.set("num", num)
 
                 self.chairmans.append(chairman)
             except Exception, e:
@@ -64,30 +71,33 @@ class Fetcher():
 
         base_url = 'http://www.panda.tv/'
         for each_content in re.finditer('<a href=".*?" class="video-list-item-wrap"([\s\S]*?)<\/a>', response.content.decode('utf8')):
-            chairman = Chairman()
+            chairman = self.Chairman()
             chairman.type = 'panda'
             group = each_content.group()
             # print group
 
             href = re.search('href=".*?"', group).group().lstrip('href="/').rstrip('"')
-            chairman.href = base_url + href
+            chairman.set("href", base_url + href)
 
-            chairman.set_id(chairman.type + str("_") + href.lstrip('/'))
+            chairman.set("id", chairman.type + str("_") + href.lstrip('/'))
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
-            chairman.title = title
+            chairman.set("title", title)
 
             img = re.search('data-original=".*?"', group).group().lstrip('data-original="').rstrip('"')
-            chairman.img = img
+            chairman.set("img", img)
 
             name = re.search('<span class="video-nickname">.*?</span>', group).group().lstrip(
                 '<span class="video-nickname">').rstrip('</span>')
-            chairman.name = name
+            chairman.set("name", name)
 
             num = re.search('<span class="video-number">.*?</span>', group).group().lstrip(
                 '<span class="video-number">').rstrip('</span>')
-            chairman.set_num(num)
 
+            if '万' in num:
+                chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
+            else:
+                chairman.set("num", num)
             self.chairmans.append(chairman)
 
     def fetch_quanmin(self):
@@ -100,16 +110,29 @@ class Fetcher():
 
         base_url = 'http://www.quanmin.tv/v/'
         for each in response.json()['data']:
-            chairman = Chairman()
+            chairman = self.Chairman()
             chairman.type = 'quanmin'
 
-            chairman.set_id(chairman.type + str("_") + each['uid'])
+            # chairman.objectId = (chairman.type + str("_") + each['uid'])
 
-            chairman.title = each['title']
-            chairman.href = base_url + each['uid']
-            chairman.img = each['thumb']
-            chairman.name = each['nick']
-            chairman.set_num(str(each['follow']))
+            # chairman.title = each['title']
+            # chairman.href = base_url + each['uid']
+            # chairman.img = each['thumb']
+            # chairman.name = each['nick']
+            # chairman.set_num(str(each['follow']))
+
+            chairman.set("id", (chairman.type + str("_") + each['uid']))
+            chairman.set("title", each['title'])
+            chairman.set("href", base_url + each['uid'])
+            chairman.set("img", each['thumb'])
+            chairman.set("name", each['nick'])
+
+            num = str(each['follow'])
+
+            if '万' in num:
+                chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
+            else:
+                chairman.set("num", num)
 
             self.chairmans.append(chairman)
 
@@ -128,28 +151,33 @@ class Fetcher():
             group = each_content.group()
             href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
             if href != '${url}':
-                chairman = Chairman()
+                chairman = self.Chairman()
                 chairman.type = 'zhanqi'
 
                 # print group
 
-                chairman.href = base_url + href
+                chairman.set("href", href)
 
-                chairman.set_id(chairman.type + str("_") + href.lstrip('/'))
+                chairman.set("id", chairman.type + str("_") + href.lstrip('/'))
 
                 title = re.search('<span class="name">.*?</span>', group).group().lstrip('<span class="name">').rstrip('</span>')
-                chairman.title = title
+                chairman.set("title", title)
 
                 img = re.search('<img src=".*?"', group).group().lstrip('<img src="').rstrip('"')
-                chairman.img = img
+                chairman.set("img", img)
 
                 name = re.search('<span class="anchor anchor-to-cut dv">.*?</span>', group).group().lstrip(
                     '<span class="anchor anchor-to-cut dv">').rstrip('</span>')
-                chairman.name = name
+                chairman.set("name", name)
 
                 num = re.search('<span class="dv">.*?</span>', group).group().lstrip(
                     '<span class="dv">').rstrip('</span>')
-                chairman.set_num(num)
+                # chairman.set_num(num)
+
+                if '万' in num:
+                    chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
+                else:
+                    chairman.set("num", num)
 
                 self.chairmans.append(chairman)
 
@@ -161,7 +189,7 @@ class Fetcher():
     #
     #     for each_content in re.finditer('<a href=".*?" class="js-jump-link">([\s\S]*?)<\/a>',
     #                                     response.content.decode('utf8')):
-    #         chairman = Chairman()
+    #         chairman = self.Chairman()
     #         group = each_content.group()
     #         # print group
     #
@@ -195,29 +223,33 @@ class Fetcher():
         # print response.content
         for each_content in re.finditer('<li class="game-live-item">([\s\S]*?)<\/li>',
                                         response.content.decode('utf8')):
-            chairman = Chairman()
+            chairman = self.Chairman()
             chairman.type = 'huya'
 
             group = each_content.group()
             # print group
             href = re.search('href=".*?"', group).group().lstrip('href=').strip('"')
-            chairman.href = href
-            chairman.set_id(chairman.type + str("_") + href.lstrip('http://www.huya.com/'))
+            chairman.set("href", href)
+            chairman.set("id", chairman.type + str("_") + href.lstrip('http://www.huya.com/'))
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
-            chairman.title = title
+            chairman.set("title", title)
         #
             img = re.search('<img class="pic" data-original=".*?"', group).group().lstrip('<img class="pic" data-original="').rstrip('"')
             # print img
-            chairman.img = img
+            chairman.set("img", img)
 
             name = re.search('<i class="nick" title=".*?">', group).group().lstrip(
                 '<i class="nick" title="').rstrip('">')
-            chairman.name = name
+            chairman.set("name", name)
 
             num = re.search('<i class="js-num">.*?</i>', group).group().lstrip(
                 '<i class="js-num">').rstrip('</i>')
-            chairman.set_num(num)
+            # chairman.set_num(num)
+            if '万' in num:
+                chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
+            else:
+                chairman.set("num", num)
 
             self.chairmans.append(chairman)
 
@@ -231,30 +263,34 @@ class Fetcher():
         # print response.content.decode('utf8')
         for each_content in re.finditer('<a href=".*? class="livecard"([\s\S]*?)<\/a>',
                                         response.content.decode('utf8')):
-            chairman = Chairman()
+            chairman = self.Chairman()
             chairman.type = 'longzhu'
 
             group = each_content.group()
             # print group
 
             href = re.search('href=".*?"', group).group().lstrip('href=').strip('"')
-            chairman.href = href
+            chairman.set("href", href)
 
-            chairman.set_id(chairman.type + str("_") + href.replace('/', '').lstrip('http://star.longzhu.com/').rstrip('?from=challcontent'))
+            chairman.set("id", (chairman.type + str("_") + href.replace('/', '').lstrip('http://star.longzhu.com/').rstrip('?from=challcontent')))
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
-            chairman.title = title
+            chairman.set("title", title)
 
             img = re.search('<img src=".*?"', group).group().lstrip('<img src="').rstrip('"')
-            chairman.img = img
+            chairman.set("img", img)
 
             name = re.search('<strong class="livecard-modal-username">.*?</strong>', group).group().lstrip(
                 '<strong class="livecard-modal-username">').rstrip('</strong>')
-            chairman.name = name
+            chairman.set("name", name)
 
             num = re.search('<span class="livecard-meta-item-text">.*?</span>', group).group().lstrip(
                 '<span class="livecard-meta-item-text">').rstrip('</span>')
-            chairman.set_num(num)
+
+            if '万' in num:
+                chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
+            else:
+                chairman.set("num", num)
 
             self.chairmans.append(chairman)
 
@@ -273,28 +309,36 @@ class Fetcher():
             href = re.search('href=".*?"', group).group().lstrip('href="/').rstrip('/"')
 
             if href != '{[value.ccid]}':
-                chairman = Chairman()
+                chairman = self.Chairman()
                 chairman.type = 'cc'
 
                 # print group
 
-                chairman.href = base_url + href
+                chairman.set("href", base_url + href)
 
-                chairman.set_id(chairman.type + str("_") + href)
+
+                # chairman.objectId = (chairman.type + str("_") + href)
+                chairman.set("id", (chairman.type + str("_") + href))
 
                 title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
-                chairman.title = title
+                chairman.set("title", title)
 
                 img = re.search('<img src=".*?"', group).group().lstrip('<img src="').rstrip('"')
-                chairman.img = img
+                chairman.set("img", img)
 
                 name = re.search('<span class="game-item-nick nick" title=".*?">', group).group().lstrip(
                     '<span class="game-item-nick nick" title="').rstrip('">')
-                chairman.name = name
+                chairman.set("name", name)
+
 
                 num = re.search('<span class="def-font visitor"></span>([\s\S]*?)</span>', group).group().lstrip(
                     '<span class="def-font visitor"></span>').rstrip('</span>')
-                chairman.set_num(num)
+                # chairman.set_num(num)
+
+                if '万' in num:
+                    chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
+                else:
+                    chairman.set("num", num)
 
                 self.chairmans.append(chairman)
 

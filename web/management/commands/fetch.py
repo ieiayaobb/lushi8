@@ -9,16 +9,20 @@ from web.models import *
 from django.core.management.base import BaseCommand
 import redis
 
+import leancloud
+
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        redis_instance = redis.StrictRedis(host=REDIS_HOST, db=REDIS_DB, password=REDIS_PASSWORD)
+        # redis_instance = redis.StrictRedis(host=REDIS_HOST, db=REDIS_DB, password=REDIS_PASSWORD)
         # redis_instance = redis.StrictRedis(host='127.0.0.1', db=7)
-        for key in redis_instance.scan_iter("Chairman:*"):
-            redis_instance.delete(key)
+        # for key in redis_instance.scan_iter("Chairman:*"):
+        #     redis_instance.delete(key)
+
+        leancloud.init("zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz", "2pUtBJhLoxTTSaSoETQb4qfA")
 
         fetcher = Fetcher()
         fetcher.fetch_cc()
@@ -31,9 +35,9 @@ class Command(BaseCommand):
 
         for chairman in fetcher.chairmans:
             try:
-                if chairman.is_valid():
-                    chairman.save()
-                else:
-                    print chairman.errors
+                # if chairman.is_valid():
+                chairman.save()
+                # else:
+                #     print chairman.errors
             except Exception, e:
                 print e

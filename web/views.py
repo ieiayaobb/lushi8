@@ -20,6 +20,8 @@ from rest_framework.reverse import reverse
 from rest_framework import renderers
 from rest_framework import viewsets
 
+import leancloud
+
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({
@@ -36,11 +38,18 @@ def get_index(request):
     # response = requests.get('http://127.0.0.1:8000/api/chairmans/')
     # chairmans = response.json()
 
+    leancloud.init("zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz", "2pUtBJhLoxTTSaSoETQb4qfA")
+
+    # Chairman = leancloud.Object.extend('Chairman')
+    query = leancloud.Query('Chairman')
+
     if 'type' in request.GET:
         type = request.GET['type']
-        chairmans = Chairman.objects.filter(type=type).order('-num')
+        # chairmans = Chairman.objects.filter(type=type).order('-num')
+        chairmans = query.find()
     else:
-        chairmans = Chairman.objects.all().order('-num')
+        # chairmans = Chairman.objects.all().order('-num')
+        chairmans = query.find()
 
     # chairmans_set = SortedSet('chairmans_set')
     # chairmans_hash = SortedSet('chairmans_hash')
