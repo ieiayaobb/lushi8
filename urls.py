@@ -27,14 +27,7 @@ import web.urls
 
 # Serializers define the API representation.
 from web import views
-from web.views import ChairmanViewSet
 
-chairman_list = ChairmanViewSet.as_view({
-    'get': 'list'
-})
-chairman_detail = ChairmanViewSet.as_view({
-    'get': 'retrieve'
-})
 #
 # class RediscoRouter(DefaultRouter):
 #     def get_default_base_name(self, viewset):
@@ -44,15 +37,17 @@ chairman_detail = ChairmanViewSet.as_view({
 # router.register(r'chairmans', views.ChairmanViewSet)
 
 
+from django.views import static
 
 
 urlpatterns = [
     # url(r'^api/', include(router.urls)),
 
     url(r'^', include(web.urls)),
-    url(r'^api/$', views.api_root),
-    url(r'^api/chairmans/$', chairman_list, name='chairman-list'),
-    url(r'^api/chairmans/(?P<id>[A-Za-z0-9_]+)/$', chairman_detail, name='chairman-detail'),
-
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^static/(?P<path>.*)$', static.serve, {'document_root': 'static'}),
+    # url(r'^api/$', views.api_root),
+    # url(r'^api/chairmans/$', chairman_list, name='chairman-list'),
+    # url(r'^api/chairmans/(?P<id>[A-Za-z0-9_]+)/$', chairman_detail, name='chairman-detail'),
+    #
+    # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

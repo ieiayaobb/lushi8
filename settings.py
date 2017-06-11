@@ -38,8 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'web',
-    'kronos',
-    'rest_framework'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -76,17 +74,6 @@ WSGI_APPLICATION = 'lushi.wsgi.application'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
-}
-
-
-# Database
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
 }
 
 
@@ -128,9 +115,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
-
-# REDIS_HOST = '10.66.183.211'
-REDIS_PASSWORD = 'crs-qqptkhei:sanpang315'
-REDIS_HOST = '127.0.0.1'
-REDIS_PASSWORD = ''
-REDIS_DB = 7

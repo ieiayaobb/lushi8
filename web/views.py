@@ -13,8 +13,6 @@ from rest_framework.views import APIView
 from rest_framework import generics
 
 from web.fetch import Fetcher
-from web.models import Chairman
-from web.serializers import ChairmanSerializer
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from rest_framework import renderers
@@ -29,11 +27,6 @@ def api_root(request, format=None):
     })
 
 
-def _convert_chairman(ele):
-    chairman = Chairman(ele=ele)
-    return chairman
-
-
 def get_index(request):
     # response = requests.get('http://127.0.0.1:8000/api/chairmans/')
     # chairmans = response.json()
@@ -43,21 +36,14 @@ def get_index(request):
     # Chairman = leancloud.Object.extend('Chairman')
     query = leancloud.Query('Chairman')
 
-    if 'type' in request.GET:
-        type = request.GET['type']
-        # chairmans = Chairman.objects.filter(type=type).order('-num')
-        chairmans = query.find()
-    else:
-        # chairmans = Chairman.objects.all().order('-num')
-        chairmans = query.find()
+    chairmans = []
 
-    # chairmans_set = SortedSet('chairmans_set')
-    # chairmans_hash = SortedSet('chairmans_hash')
-    # chairmans = map(_convert_chairman, chairmans_set.revmembers)
-    # chairmans = map(_convert_chairman, chairmans_hash.members)
+    for chairman in query.add_descending('num').find():
+        chairmans.append(chairman.attributes)
 
     return render_to_response('index.html', locals(),
                               context_instance=RequestContext(request))
+
 
 def fetch(request):
     fetcher = Fetcher()
@@ -69,8 +55,6 @@ def fetch(request):
     fetcher.fetch_zhanqi()
     fetcher.fetch_huya()
 
-    # chairmans_set = SortedSet('chairmans_set')
-    # charimans_hash = Hash('chairmans_hash')
     for chairman in fetcher.chairmans:
         try:
             if chairman.is_valid():
@@ -85,18 +69,6 @@ def fetch(request):
     return render_to_response('index.html', locals(),
                               context_instance=RequestContext(request))
 
-
-class ChairmanViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin):
-    serializer_class = ChairmanSerializer
-    lookup_field = ('id')
-
-    def get_queryset(self):
-        return Chairman.objects.all().order('-num')
-
-    def retrieve(self, request, *args, **kwargs):
-        chairman = Chairman(id=kwargs['id'])
-        serializer = self.get_serializer(chairman)
-        return Response(serializer.data)
 
 # class ChairmanList(generics.ListAPIView):
 #     queryset = Chairman.objects.all().order('-num')
