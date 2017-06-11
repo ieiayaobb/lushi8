@@ -26,7 +26,7 @@ class Fetcher():
         url = 'http://www.douyu.com/directory/game/How'
 
         session = requests.Session()
-        response = session.get(url)
+        response = session.get(url, verify=False)
 
         base_url = 'http://www.douyu.com/'
         # print response.content.decode('utf8')
