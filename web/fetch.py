@@ -55,7 +55,7 @@ class Fetcher():
                 if '万' in num:
                     chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
                 else:
-                    chairman.set("num", num)
+                    chairman.set("num", int(num))
 
                 self.chairmans.append(chairman)
             except Exception, e:
@@ -97,7 +97,7 @@ class Fetcher():
             if '万' in num:
                 chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
             else:
-                chairman.set("num", num)
+                chairman.set("num", int(num))
             self.chairmans.append(chairman)
 
     def fetch_quanmin(self):
@@ -132,7 +132,7 @@ class Fetcher():
             if '万' in num:
                 chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
             else:
-                chairman.set("num", num)
+                chairman.set("num", int(num))
 
             self.chairmans.append(chairman)
 
@@ -177,7 +177,7 @@ class Fetcher():
                 if '万' in num:
                     chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
                 else:
-                    chairman.set("num", num)
+                    chairman.set("num", int(num))
 
                 self.chairmans.append(chairman)
 
@@ -249,7 +249,7 @@ class Fetcher():
             if '万' in num:
                 chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
             else:
-                chairman.set("num", num)
+                chairman.set("num", int(num))
 
             self.chairmans.append(chairman)
 
@@ -290,7 +290,7 @@ class Fetcher():
             if '万' in num:
                 chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
             else:
-                chairman.set("num", num)
+                chairman.set("num", int(num))
 
             self.chairmans.append(chairman)
 
@@ -338,7 +338,7 @@ class Fetcher():
                 if '万' in num:
                     chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
                 else:
-                    chairman.set("num", num)
+                    chairman.set("num", int(num))
 
                 self.chairmans.append(chairman)
 
