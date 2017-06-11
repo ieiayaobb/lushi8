@@ -46,6 +46,10 @@ def get_index(request):
 
 
 def fetch(request):
+    leancloud.init("zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz", "2pUtBJhLoxTTSaSoETQb4qfA")
+
+    leancloud.Object.destroy_all(leancloud.Query('Chairman').find())
+
     fetcher = Fetcher()
     fetcher.fetch_cc()
     fetcher.fetch_douyu()
@@ -57,31 +61,8 @@ def fetch(request):
 
     for chairman in fetcher.chairmans:
         try:
-            if chairman.is_valid():
-                # charimans_hash[chairman.id] = chairman
-                # chairmans_set.add(chairman, chairman.num)
-                chairman.save()
-            else:
-                print chairman.errors
+            chairman.save()
         except Exception, e:
             print e
 
-    return render_to_response('index.html', locals(),
-                              context_instance=RequestContext(request))
-
-
-# class ChairmanList(generics.ListAPIView):
-#     queryset = Chairman.objects.all().order('-num')
-#     serializer_class = ChairmanSerializer
-#
-#
-# class ChairmanDetail(mixins.RetrieveModelMixin,
-#                      generics.GenericAPIView):
-#     queryset = Chairman.objects.all()
-#     serializer_class = ChairmanSerializer
-#     lookup_field = ('id')
-#
-#     def get(self, request, *args, **kwargs):
-#         chairman = Chairman(id=kwargs['id'])
-#         serializer = self.get_serializer(chairman)
-#         return Response(serializer.data)
+    return get_index(request)
