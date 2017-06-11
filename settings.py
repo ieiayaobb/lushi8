@@ -53,7 +53,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'lushi.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
@@ -134,4 +134,3 @@ REDIS_PASSWORD = 'crs-qqptkhei:sanpang315'
 REDIS_HOST = '127.0.0.1'
 REDIS_PASSWORD = ''
 REDIS_DB = 7
-
