@@ -48,7 +48,20 @@ def get_index(request):
 def fetch(request):
     leancloud.init("zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz", "2pUtBJhLoxTTSaSoETQb4qfA")
 
-    leancloud.Object.destroy_all(leancloud.Query('Chairman').find())
+    query = leancloud.Query('Chairman')
+
+    allDataCompleted = False
+    batch = 0
+    limit = 1000
+    while not allDataCompleted:
+        query.limit(limit)
+        query.skip(batch * limit)
+        query.add_ascending('createdAt')
+        resultList = query.find()
+        if len(resultList) < limit:
+            allDataCompleted = True
+            leancloud.Object.destroy_all(resultList)
+        batch += 1
 
     fetcher = Fetcher()
     fetcher.fetch_cc()
