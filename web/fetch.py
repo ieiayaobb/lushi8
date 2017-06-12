@@ -67,7 +67,7 @@ class Fetcher():
         url = 'http://www.panda.tv/cate/hearthstone'
 
         session = requests.Session()
-        response = session.get(url)
+        response = session.get(url, verify=False)
 
         base_url = 'http://www.panda.tv/'
         for each_content in re.finditer('<a href=".*?" class="video-list-item-wrap"([\s\S]*?)<\/a>', response.content.decode('utf8')):
@@ -106,7 +106,7 @@ class Fetcher():
         url = 'http://www.quanmin.tv/json/categories/heartstone/list.json?t=24468018'
 
         session = requests.Session()
-        response = session.get(url)
+        response = session.get(url, verify=False)
 
         base_url = 'http://www.quanmin.tv/v/'
         for each in response.json()['data']:
@@ -143,7 +143,7 @@ class Fetcher():
         url = 'http://www.zhanqi.tv/chns/blizzard/how'
 
         session = requests.Session()
-        response = session.get(url)
+        response = session.get(url, verify=False)
 
         base_url = 'http://www.zhanqi.tv/'
         for each_content in re.finditer('<a href=".*?" class="js-jump-link">([\s\S]*?)<\/a>',
@@ -219,7 +219,7 @@ class Fetcher():
         url = 'http://www.huya.com/g/hearthstone'
 
         session = requests.Session()
-        response = session.get(url)
+        response = session.get(url, verify=False)
         # print response.content
         for each_content in re.finditer('<li class="game-live-item">([\s\S]*?)<\/li>',
                                         response.content.decode('utf8')):
@@ -259,7 +259,7 @@ class Fetcher():
         url = 'http://longzhu.com/channels/hs?from=figame'
 
         session = requests.Session()
-        response = session.get(url)
+        response = session.get(url, verify=False)
         # print response.content.decode('utf8')
         for each_content in re.finditer('<a href=".*? class="livecard"([\s\S]*?)<\/a>',
                                         response.content.decode('utf8')):
@@ -299,7 +299,7 @@ class Fetcher():
         url = 'http://cc.163.com/category/list/?gametype=1005'
 
         session = requests.Session()
-        response = session.get(url)
+        response = session.get(url, verify=False)
 
         base_url = 'http://cc.163.com/'
 
