@@ -42,9 +42,6 @@ def fetch(**params):
         except Exception, e:
             print e
 
-    return get_index(request)
-
-
 @engine.before_save('Todo')
 def before_todo_save(todo):
     content = todo.get('content')
