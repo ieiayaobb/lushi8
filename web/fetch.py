@@ -93,7 +93,7 @@ class Fetcher():
 
             num = re.search('<span class="video-number">.*?</span>', group).group().lstrip(
                 '<span class="video-number">').rstrip('</span>')
-
+            num = num.replace('人', '')
             if '万' in num:
                 chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
             else:

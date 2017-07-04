@@ -1,8 +1,7 @@
 # coding: utf-8
 import leancloud
 from django.core.wsgi import get_wsgi_application
-from leancloud import Engine
-from leancloud import LeanEngineError
+from leancloud import Engine, LeanEngineError
 
 from web.fetch import Fetcher
 
