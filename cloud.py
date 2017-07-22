@@ -4,12 +4,13 @@ from django.core.wsgi import get_wsgi_application
 from leancloud import Engine, LeanEngineError
 
 from web.fetch import Fetcher
+from settings import LEAN_CLOUD_ID, LEAN_CLOUD_SECRET
 
 engine = Engine(get_wsgi_application())
 
 @engine.define
 def fetch(**params):
-    leancloud.init("zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz", "2pUtBJhLoxTTSaSoETQb4qfA")
+    leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
     query = leancloud.Query('Chairman')
 

@@ -19,9 +19,9 @@ from django.conf.urls import url, include, patterns
 from django.contrib import admin
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import serializers, viewsets, routers
-from rest_framework.renderers import JSONRenderer
-from rest_framework.routers import DefaultRouter, BaseRouter, SimpleRouter
+# from rest_framework import serializers, viewsets, routers
+# from rest_framework.renderers import JSONRenderer
+# from rest_framework.routers import DefaultRouter, BaseRouter, SimpleRouter
 
 import web.urls
 

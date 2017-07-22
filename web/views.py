@@ -4,33 +4,24 @@ from django.shortcuts import render, render_to_response, redirect
 
 # Create your views here.
 from django.template import RequestContext
-from redis import ResponseError
-from redisco.containers import Set, SortedSet, Hash
-from rest_framework import mixins
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import generics
 
 from web.fetch import Fetcher
-from rest_framework.decorators import api_view
-from rest_framework.reverse import reverse
-from rest_framework import renderers
-from rest_framework import viewsets
 
+from settings import LEAN_CLOUD_ID, LEAN_CLOUD_SECRET
 import leancloud
 
-@api_view(('GET',))
-def api_root(request, format=None):
-    return Response({
-        'chairmans': reverse('chairman-list', request=request, format=format),
-    })
+# @api_view(('GET',))
+# def api_root(request, format=None):
+#     return Response({
+#         'chairmans': reverse('chairman-list', request=request, format=format),
+#     })
 
 
 def get_index(request):
     # response = requests.get('http://127.0.0.1:8000/api/chairmans/')
     # chairmans = response.json()
 
-    leancloud.init("zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz", "2pUtBJhLoxTTSaSoETQb4qfA")
+    leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
     # Chairman = leancloud.Object.extend('Chairman')
     query = leancloud.Query('Chairman')
@@ -45,7 +36,7 @@ def get_index(request):
 
 
 def fetch(request):
-    leancloud.init("zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz", "2pUtBJhLoxTTSaSoETQb4qfA")
+    leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
     query = leancloud.Query('Chairman')
 
