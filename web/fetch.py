@@ -87,9 +87,11 @@ class Fetcher():
             img = re.search('data-original=".*?"', group).group().lstrip('data-original="').rstrip('"')
             chairman.set("img", img)
 
-            name = re.search('<span class="video-nickname">.*?</span>', group).group().lstrip(
-                '<span class="video-nickname">').rstrip('</span>')
+            name = re.search('</i>.*?</span>', group).group().lstrip(
+                '</i>').rstrip('</span>')
             chairman.set("name", name)
+
+            # print name
 
             num = re.search('<span class="video-number">.*?</span>', group).group().lstrip(
                 '<span class="video-number">').rstrip('</span>')
@@ -351,6 +353,6 @@ if __name__ == "__main__":
     # fetcher.fetch_huomao()
     # fetcher.fetch_longzhu()
     # fetcher.fetch_cc()
-    fetcher.fetch_huya()
+    # fetcher.fetch_huya()
 
     print fetcher.chairmans

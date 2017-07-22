@@ -4,26 +4,16 @@ from django.shortcuts import render, render_to_response, redirect
 
 # Create your views here.
 from django.template import RequestContext
-from redis import ResponseError
-from redisco.containers import Set, SortedSet, Hash
-from rest_framework import mixins
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import generics
 
 from web.fetch import Fetcher
-from rest_framework.decorators import api_view
-from rest_framework.reverse import reverse
-from rest_framework import renderers
-from rest_framework import viewsets
 
 import leancloud
 
-@api_view(('GET',))
-def api_root(request, format=None):
-    return Response({
-        'chairmans': reverse('chairman-list', request=request, format=format),
-    })
+# @api_view(('GET',))
+# def api_root(request, format=None):
+#     return Response({
+#         'chairmans': reverse('chairman-list', request=request, format=format),
+#     })
 
 
 def get_index(request):
