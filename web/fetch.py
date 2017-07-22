@@ -348,7 +348,7 @@ class Fetcher():
 
 if __name__ == "__main__":
     fetcher = Fetcher()
-    # fetcher.fetch_douyu()
+    fetcher.fetch_douyu()
     # fetcher.fetch_xiongmao()
     # fetcher.fetch_quanmin()
     # fetcher.fetch_zhanqi()
