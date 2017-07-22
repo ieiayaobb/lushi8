@@ -11,7 +11,9 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 import leancloud
 
-leancloud.init("zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz", "2pUtBJhLoxTTSaSoETQb4qfA")
+from settings import LEAN_CLOUD_ID, LEAN_CLOUD_SECRET
+
+leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
 
 class Fetcher():

@@ -7,6 +7,7 @@ from django.template import RequestContext
 
 from web.fetch import Fetcher
 
+from settings import LEAN_CLOUD_ID, LEAN_CLOUD_SECRET
 import leancloud
 
 # @api_view(('GET',))
@@ -20,7 +21,7 @@ def get_index(request):
     # response = requests.get('http://127.0.0.1:8000/api/chairmans/')
     # chairmans = response.json()
 
-    leancloud.init("zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz", "2pUtBJhLoxTTSaSoETQb4qfA")
+    leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
     # Chairman = leancloud.Object.extend('Chairman')
     query = leancloud.Query('Chairman')
@@ -35,7 +36,7 @@ def get_index(request):
 
 
 def fetch(request):
-    leancloud.init("zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz", "2pUtBJhLoxTTSaSoETQb4qfA")
+    leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
     query = leancloud.Query('Chairman')
 

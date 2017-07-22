@@ -3,13 +3,14 @@ import sys
 from web.fetch import Fetcher
 from django.core.management.base import BaseCommand
 import leancloud
+from settings import LEAN_CLOUD_ID, LEAN_CLOUD_SECRET
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        leancloud.init("zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz", "2pUtBJhLoxTTSaSoETQb4qfA")
+        leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
         query = leancloud.Query('Chairman')
 
