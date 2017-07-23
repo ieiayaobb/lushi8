@@ -116,5 +116,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 
-LEAN_CLOUD_ID = 'zeDAC8hXWeaccjdYd3K42OOG-gzGzoHsz'
-LEAN_CLOUD_SECRET = '2pUtBJhLoxTTSaSoETQb4qfA'
+LEAN_CLOUD_ID = 'rmdujcuRyJJOu7Gje8UwmAca-gzGzoHsz'
+LEAN_CLOUD_SECRET = 'O9qfbpkFQ9TapIuSDmdbTUv6'
