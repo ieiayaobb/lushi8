@@ -36,6 +36,8 @@ class Fetcher():
             try:
                 chairman = self.Chairman()
                 chairman.type = 'douyu'
+                chairman.set('type', 'douyu')
+
                 group = each_content.group()
                 # print group
                 href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
@@ -75,6 +77,8 @@ class Fetcher():
         for each_content in re.finditer('<a href=".*?" class="video-list-item-wrap"([\s\S]*?)<\/a>', response.content.decode('utf8')):
             chairman = self.Chairman()
             chairman.type = 'panda'
+            chairman.set('type', 'panda')
+
             group = each_content.group()
             # print group
 
@@ -116,6 +120,7 @@ class Fetcher():
         for each in response.json()['data']:
             chairman = self.Chairman()
             chairman.type = 'quanmin'
+            chairman.set('type', 'quanmin')
 
             # chairman.objectId = (chairman.type + str("_") + each['uid'])
 
@@ -157,6 +162,7 @@ class Fetcher():
             if href != '${url}':
                 chairman = self.Chairman()
                 chairman.type = 'zhanqi'
+                chairman.set('type', 'zhanqi')
 
                 # print group
 
@@ -229,6 +235,7 @@ class Fetcher():
                                         response.content.decode('utf8')):
             chairman = self.Chairman()
             chairman.type = 'huya'
+            chairman.set('type', 'huya')
 
             group = each_content.group()
             # print group
@@ -269,6 +276,7 @@ class Fetcher():
                                         response.content.decode('utf8')):
             chairman = self.Chairman()
             chairman.type = 'longzhu'
+            chairman.set('type', 'longzhu')
 
             group = each_content.group()
             # print group
@@ -315,6 +323,7 @@ class Fetcher():
             if href != '{[value.ccid]}':
                 chairman = self.Chairman()
                 chairman.type = 'cc'
+                chairman.set('type', 'cc')
 
                 # print group
 
@@ -357,4 +366,4 @@ if __name__ == "__main__":
     # fetcher.fetch_cc()
     # fetcher.fetch_huya()
 
-    print fetcher.chairmans
+    # print fetcher.chairmans
