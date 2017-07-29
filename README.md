@@ -6,11 +6,17 @@
 我主要去采集斗鱼、熊猫等的炉石区的主播信息。虽然各个站点的人气信息有水分，但还是做了个简单的排名。
 
 上图：
+
  ![](http://upload-images.jianshu.io/upload_images/2485846-b769ca2976cb269e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 手机上的效果图:
+
 ![](http://upload-images.jianshu.io/upload_images/2485846-2edf6d6bc04955a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-话不多说，上网站: http://lushi8.leanapp.cn/
+
+话不多说，上网站: http://lushiba.leanapp.cn/
+
 项目部输在了leancloud上，比较省心，但有一定的免费额度（如果显示超出限制，需要晚一些来访问，毕竟免费的，每天6个小时限制）
+
 源码地址:  https://github.com/ieiayaobb/lushi8, 欢迎Star
 
  - master分支是redis方式存储实现
@@ -28,6 +34,7 @@
 轻量级的项目，直接就是用了Python来做，Python在爬虫、web方面都有着不错的库支持，而且lean cloud也支持Python部署，所以毫不犹豫的就采用了Python来做
  - ### 数据采集（requests）
 requests的特点就是轻量，且简单易用。虽然这是个爬虫项目，但实在规模太小，所以没必要上scrapy了
+
 requests的介绍地址：http://docs.python-requests.org/zh_CN/latest/index.html
 #### 请求模拟
 ```
@@ -37,24 +44,31 @@ response = session.get(url, verify=False)
 ```
 #### 数据解析
 解析部分主要有两种：正则，BeautifulSoup
+
 这里为了通用，直接使用了正则来解析。
+
 正则处理要求比较高，但是几乎能应对所有的情况，属于大杀器。
+
 BeautifulSoup4的详细介绍: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
  - ### web框架（Django）
 Django是Python比较重量级的框架，Django自带了orm的框架，可惜这个项目中用不到。但是我们会使用Django的模板引擎，Django的模板引擎也是很方便的一个特性。Django还提供了django-rest-framework，方便开发RESTful的接口，这个项目后续做了个配搭的React Native的mobile应用，所以引入了django-rest-framework。
+
 详细介绍在此：https://www.djangoproject.com/
  - ### 存储（lean cloud的数据存储）
 既然用了lean cloud，存储就直接用了lean提供的存储功能。
+
 详细的介绍在这里: https://leancloud.cn/docs/leanstorage_guide-python.html
  - ### 部署（用了lean cloud的引擎）
 参考了lean cloud官方的项目骨架: https://github.com/leancloud/django-getting-started
  - ### 前端展示（pureCSS）
 pureCss还是为了简单，支持响应式，并且提供了基础的UI组件
+
 详细介绍在这里: https://purecss.io/
 
 ## 环境准备
 Python的开发环境网上比较多，主要是virtualenv的准备，可以看廖老师的博客了解具体信息:
 https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432712108300322c61f256c74803b43bfd65c6f8d0d0000
+
 requirments.txt内容如下:
 ```
 Django==1.9.7
@@ -199,6 +213,7 @@ def fetch(**params):
 页面部分比较简单，以一个列表的形式，展现了主播的排行榜信息，点击某一个主播，直接跳转到对应直播网站的目标直播间。因为考虑到在手机上的显示，所以做了自适应
 ### 列表页
 列表页的渲染使用了Django的模板引擎
+
 由于lean cloud的存储和Django的orm不一样，所以这里需要将attributes放到列表中，页面上才能用模板语法进行访问
 view部分代码:
 ```
@@ -239,8 +254,11 @@ def get_index(request):
 ```
 ## 项目部署
 因为部署在了lean cloud上，可以直接使用提供的lean-cli进行部署，
+
 lean-cli的详细介绍在这里: 
+
 https://www.leancloud.cn/docs/leanengine_cli.html#部署
+
 这里为了方便直接在页面上进行配置
  - 配置git库
 ![](http://upload-images.jianshu.io/upload_images/2485846-8c956a165bc48fe4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)

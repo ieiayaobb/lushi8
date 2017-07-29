@@ -1,6 +1,14 @@
+<<<<<<< HEAD
+.idea/
+*.pyc
+web/migrations/
+db.sqlite3
+.vscode/
+=======
 .idea/
 *.pyc
 web/migrations/
 db.sqlite3
 .vscode/
 .leancloud/
+>>>>>>> 8047a2e83ec3a8bd86fc31d6dea2f78a3813fd41
