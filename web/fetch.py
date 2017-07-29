@@ -15,6 +15,8 @@ from settings import LEAN_CLOUD_ID, LEAN_CLOUD_SECRET
 
 leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 class Fetcher():
     Chairman = leancloud.Object.extend('Chairman')
