@@ -95,7 +95,7 @@ class Fetcher():
             img = re.search('data-original=".*?"', group).group().lstrip('data-original="').rstrip('"')
             chairman.set("img", img)
 
-            name = re.search('</i>.*?</span>', group).group().lstrip(
+            name = re.search('</i>[\s\S]*?</span>', group).group().lstrip(
                 '</i>').rstrip('</span>')
             chairman.set("name", name)
 
@@ -360,12 +360,12 @@ class Fetcher():
 if __name__ == "__main__":
     fetcher = Fetcher()
     fetcher.fetch_douyu()
-    # fetcher.fetch_xiongmao()
-    # fetcher.fetch_quanmin()
-    # fetcher.fetch_zhanqi()
-    # fetcher.fetch_huomao()
-    # fetcher.fetch_longzhu()
-    # fetcher.fetch_cc()
-    # fetcher.fetch_huya()
+    fetcher.fetch_xiongmao()
+    fetcher.fetch_quanmin()
+    fetcher.fetch_zhanqi()
+    fetcher.fetch_huomao()
+    fetcher.fetch_longzhu()
+    fetcher.fetch_cc()
+    fetcher.fetch_huya()
 
     # print fetcher.chairmans
