@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import json
+import logging
 import os
 import re
 import requests
@@ -15,8 +16,10 @@ from settings import LEAN_CLOUD_ID, LEAN_CLOUD_SECRET
 
 leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+# import urllib3
+# urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+# urllib3.disable_warnings()
+logging.captureWarnings(True)
 
 class Fetcher():
     Chairman = leancloud.Object.extend('Chairman')
@@ -366,7 +369,7 @@ if __name__ == "__main__":
     fetcher.fetch_xiongmao()
     fetcher.fetch_quanmin()
     fetcher.fetch_zhanqi()
-    fetcher.fetch_huomao()
+    # fetcher.fetch_huomao()
     fetcher.fetch_longzhu()
     fetcher.fetch_cc()
     fetcher.fetch_huya()
