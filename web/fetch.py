@@ -95,9 +95,12 @@ class Fetcher():
             img = re.search('data-original=".*?"', group).group().lstrip('data-original="').rstrip('"')
             chairman.set("img", img)
 
-            name = re.search('</i>[\s\S]*?</span>', group).group().lstrip(
-                '</i>').rstrip('</span>')
-            chairman.set("name", name)
+            if re.search('</i>[\s\S]*?</span>', group):
+                name = re.search('</i>[\s\S]*?</span>', group).group().lstrip(
+                    '</i>').rstrip('</span>')
+                chairman.set("name", name)
+            else:
+                chairman.set("name", "")
 
             # print name
 
