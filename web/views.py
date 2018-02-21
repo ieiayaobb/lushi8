@@ -25,10 +25,11 @@ def get_index(request):
 
     Chairman = leancloud.Object.extend('Chairman')
     query = Chairman.query
+    query.add_descending('num')
 
     chairmans = []
 
-    for chairman in query.add_descending('num').find():
+    for chairman in query.find():
         chairman_view = {}
         chairman_view.type = chairman.get('type')
         chairman_view.href = chairman.get('href')
