@@ -32,15 +32,15 @@ def get_index(request):
     chairmans = []
 
     for chairman in query_list:
-        print chairman
+        print chairman.get('type')
         chairman_view = {}
-        chairman_view.type = chairman.get('type')
-        chairman_view.href = chairman.get('href')
-        chairman_view.id = chairman.get('id')
-        chairman_view.title = chairman.get('title')
-        chairman_view.img = chairman.get('img')
-        chairman_view.name = chairman.get('name')
-        chairman_view.num = chairman.get('num')
+        chairman_view['type'] = chairman.get('type')
+        chairman_view['href'] = chairman.get('href')
+        chairman_view['id'] = chairman.get('id')
+        chairman_view['title'] = chairman.get('title')
+        chairman_view['img'] = chairman.get('img')
+        chairman_view['name'] = chairman.get('name')
+        chairman_view['num'] = chairman.get('num')
         chairmans.append(chairman_view)
 
     return render_to_response('index.html', locals())
