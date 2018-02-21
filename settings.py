@@ -25,7 +25,7 @@ SECRET_KEY = 's&*e($hc*5vuw(ebbks)9@xv8gt_l@-s%d$9qz4u^*_fluf($9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://lushiba.leanapp.cn/']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
