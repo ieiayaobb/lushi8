@@ -23,8 +23,8 @@ def get_index(request):
 
     leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
-    # Chairman = leancloud.Object.extend('Chairman')
-    query = leancloud.Query('Chairman')
+    Chairman = leancloud.Object.extend('Chairman')
+    query = Chairman.query
 
     chairmans = []
 
