@@ -39,8 +39,7 @@ def get_index(request):
         chairman_view.num = chairman.get('num')
         chairmans.append(chairman_view)
 
-    return render_to_response('index.html', locals(),
-                              context_instance=RequestContext(request))
+    return render_to_response('index.html', locals())
 
 
 def fetch(request):
