@@ -346,7 +346,9 @@ class Fetcher():
             chairman.set("img", each['cover'])
             chairman.set("name", each['nickname'])
 
-            num = str(each['total_visitor'])
+            num = 0
+            if 'total_visitor' in each:
+                num = str(each['total_visitor'])
 
             if '万' in num:
                 chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
