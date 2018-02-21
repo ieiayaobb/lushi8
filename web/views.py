@@ -32,7 +32,7 @@ def get_index(request):
     chairmans = []
 
     for chairman in query_list:
-        print chairman.get('type')
+        # print chairman.get('type')
         chairman_view = {}
         chairman_view['type'] = chairman.get('type')
         chairman_view['href'] = chairman.get('href')
