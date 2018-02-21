@@ -37,7 +37,7 @@ class Fetcher():
 
         base_url = 'http://www.douyu.com/'
         # print response.content.decode('utf8')
-        for each_content in re.finditer('<a class="play-list-link" .*?>([\s\S]*?)<\/a>', response.content.decode('utf8')):
+        for each_content in re.finditer('<a class="play-list-link"[\s\S]*?>([\s\S]*?)<\/a>', response.content.decode('utf8')):
             try:
                 chairman = self.Chairman()
                 chairman.type = 'douyu'
@@ -67,8 +67,9 @@ class Fetcher():
                     chairman.set("num", int(num))
 
                 self.chairmans.append(chairman)
+                # print chairman
             except Exception, e:
-                print group
+                print e
 
     def fetch_xiongmao(self):
         print 'fetch xiongmao'
@@ -163,7 +164,8 @@ class Fetcher():
         response = session.get(url, verify=False)
 
         base_url = 'http://www.zhanqi.tv/'
-        for each_content in re.finditer('<a href=".*?" class="js-jump-link">([\s\S]*?)<\/a>',
+        # print response.content.decode('utf8')
+        for each_content in re.finditer('<a href=".*?" class="js-jump-link"([\s\S]*?)<\/a>',
                                         response.content.decode('utf8')):
             group = each_content.group()
             href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
@@ -198,6 +200,7 @@ class Fetcher():
                     chairman.set("num", int(num))
 
                 self.chairmans.append(chairman)
+                # print chairman
 
     # def fetch_huomao(self):
     #     url = 'http://www.zhanqi.tv/chns/blizzard/how'
@@ -239,7 +242,7 @@ class Fetcher():
         session = requests.Session()
         response = session.get(url, verify=False)
         # print response.content
-        for each_content in re.finditer('<li class="game-live-item">([\s\S]*?)<\/li>',
+        for each_content in re.finditer('<li class="game-live-item"([\s\S]*?)<\/li>',
                                         response.content.decode('utf8')):
             chairman = self.Chairman()
             chairman.type = 'huya'
@@ -271,6 +274,7 @@ class Fetcher():
                 chairman.set("num", int(num))
 
             self.chairmans.append(chairman)
+            # print chairman
 
     def fetch_longzhu(self):
         print 'fetch longzhu'
@@ -316,13 +320,50 @@ class Fetcher():
 
     def fetch_cc(self):
         print 'fetch cc'
-        url = 'http://cc.163.com/category/list/?gametype=1005'
+        url = 'http://cc.163.com/category/list/?gametype=1005&format=json&start=0&size=100'
 
         session = requests.Session()
         response = session.get(url, verify=False)
 
         base_url = 'http://cc.163.com/'
+        print response.json()
+        for each in response.json()['lives']:
+            chairman = self.Chairman()
+            chairman.type = 'cc'
+            chairman.set('type', 'cc')
 
+            # chairman.objectId = (chairman.type + str("_") + each['uid'])
+
+            # chairman.title = each['title']
+            # chairman.href = base_url + each['uid']
+            # chairman.img = each['thumb']
+            # chairman.name = each['nick']
+            # chairman.set_num(str(each['follow']))
+
+            chairman.set("id", (chairman.type + str("_") + str(each['cuteid'])))
+            chairman.set("title", each['title'])
+            chairman.set("href", base_url + str(each['cuteid']))
+            chairman.set("img", each['cover'])
+            chairman.set("name", each['nickname'])
+
+            num = str(each['total_visitor'])
+
+            if '万' in num:
+                chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
+            else:
+                chairman.set("num", int(num))
+
+            self.chairmans.append(chairman)
+            # print chairman
+
+    def fetch_cc_old(self):
+        print 'fetch cc'
+        url = 'http://cc.163.com/category/list/?gametype=1005'
+        session = requests.Session()
+        response = session.get(url, verify=False)
+
+        base_url = 'http://cc.163.com/'
+        print response.content.decode('utf8')
         for each_content in re.finditer('<li class="game-item js-game-item">([\s\S]*?)<\/li>',
                                         response.content.decode('utf8')):
             group = each_content.group()
@@ -365,13 +406,13 @@ class Fetcher():
 
 if __name__ == "__main__":
     fetcher = Fetcher()
-    fetcher.fetch_douyu()
-    fetcher.fetch_xiongmao()
-    fetcher.fetch_quanmin()
-    fetcher.fetch_zhanqi()
+    # fetcher.fetch_douyu()
+    # fetcher.fetch_xiongmao()
+    # fetcher.fetch_quanmin()
+    # fetcher.fetch_zhanqi()
     # fetcher.fetch_huomao()
-    fetcher.fetch_longzhu()
+    # fetcher.fetch_longzhu()
     fetcher.fetch_cc()
-    fetcher.fetch_huya()
+    # fetcher.fetch_huya()
 
     # print fetcher.chairmans
