@@ -4,6 +4,8 @@ from django.shortcuts import render, render_to_response, redirect
 
 # Create your views here.
 from django.template import RequestContext
+from rest_framework import viewsets
+from rest_framework.serializers import HyperlinkedModelSerializer
 
 from web.fetch import Fetcher
 
@@ -21,6 +23,11 @@ def get_index(request):
     # response = requests.get('http://127.0.0.1:8000/api/chairmans/')
     # chairmans = response.json()
 
+    chairmans = build_chairman_list()
+
+    return render_to_response('index.html', locals())
+
+def build_chairman_list():
     leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
     Chairman = leancloud.Object.extend('Chairman')
@@ -43,7 +50,7 @@ def get_index(request):
         chairman_view['num'] = chairman.get('num')
         chairmans.append(chairman_view)
 
-    return render_to_response('index.html', locals())
+    return chairmans
 
 
 def fetch(request):
@@ -80,3 +87,10 @@ def fetch(request):
             print e
 
     return redirect("/")
+
+class ChairmanViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = build_chairman_list()
+    serializer_class = HyperlinkedModelSerializer

@@ -326,7 +326,7 @@ class Fetcher():
         response = session.get(url, verify=False)
 
         base_url = 'http://cc.163.com/'
-        print response.json()
+        # print response.json()
         for each in response.json()['lives']:
             chairman = self.Chairman()
             chairman.type = 'cc'
@@ -408,13 +408,15 @@ class Fetcher():
 
 if __name__ == "__main__":
     fetcher = Fetcher()
-    # fetcher.fetch_douyu()
-    # fetcher.fetch_xiongmao()
-    # fetcher.fetch_quanmin()
-    # fetcher.fetch_zhanqi()
+    fetcher.fetch_douyu()
+    fetcher.fetch_xiongmao()
+    fetcher.fetch_quanmin()
+    fetcher.fetch_zhanqi()
     # fetcher.fetch_huomao()
-    # fetcher.fetch_longzhu()
+    fetcher.fetch_longzhu()
     fetcher.fetch_cc()
-    # fetcher.fetch_huya()
+    fetcher.fetch_huya()
 
-    # print fetcher.chairmans
+    for chairman in fetcher.chairmans:
+        pass
+        # print chairman.type

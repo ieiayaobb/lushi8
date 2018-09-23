@@ -22,6 +22,7 @@ from django.views.decorators.csrf import csrf_exempt
 # from rest_framework import serializers, viewsets, routers
 # from rest_framework.renderers import JSONRenderer
 # from rest_framework.routers import DefaultRouter, BaseRouter, SimpleRouter
+from rest_framework import routers
 
 import web.urls
 
@@ -33,9 +34,12 @@ from web import views
 #     def get_default_base_name(self, viewset):
 #         return viewset.queryset.model_class.object_name.lower()
 #
-# router = RediscoRouter()
-# router.register(r'chairmans', views.ChairmanViewSet)
+router = routers.DefaultRouter()
+router.register(r'chairmans', views.ChairmanViewSet)
 
+from web.fetch import Fetcher
+
+fetcher = Fetcher()
 
 from django.views import static
 
@@ -46,8 +50,8 @@ urlpatterns = [
     url(r'^', include(web.urls)),
     url(r'^static/(?P<path>.*)$', static.serve, {'document_root': 'static'}),
     # url(r'^api/$', views.api_root),
-    # url(r'^api/chairmans/$', chairman_list, name='chairman-list'),
+    # url(r'^api/chairmans/$', fetcher.chairmans, name='chairman-list'),
     # url(r'^api/chairmans/(?P<id>[A-Za-z0-9_]+)/$', chairman_detail, name='chairman-detail'),
     #
-    # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
