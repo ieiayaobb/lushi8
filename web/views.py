@@ -29,6 +29,7 @@ def get_index(request):
 
     return render_to_response('index.html', locals())
 
+
 def build_chairman_list():
     leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
