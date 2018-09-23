@@ -17,6 +17,7 @@ import leancloud
 #     return Response({
 #         'chairmans': reverse('chairman-list', request=request, format=format),
 #     })
+from web.serializers import ChairmanSerializer
 
 
 def get_index(request):
@@ -90,4 +91,4 @@ def fetch(request):
 
 class ChairmanViewSet(viewsets.ModelViewSet):
     queryset = build_chairman_list()
-    # serializer_class = HyperlinkedModelSerializer
+    serializer_class = ChairmanSerializer
