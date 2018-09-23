@@ -89,8 +89,5 @@ def fetch(request):
     return redirect("/")
 
 class ChairmanViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = build_chairman_list()
     # serializer_class = HyperlinkedModelSerializer
