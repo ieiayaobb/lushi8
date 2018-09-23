@@ -35,7 +35,7 @@ from web import views
 #         return viewset.queryset.model_class.object_name.lower()
 #
 router = routers.DefaultRouter()
-router.register(r'chairmans', views.ChairmanViewSet)
+router.register(r'chairmans', views.ChairmanViewSet, base_name='chairmans')
 
 from django.views import static
 
