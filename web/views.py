@@ -5,6 +5,7 @@ from django.shortcuts import render, render_to_response, redirect
 # Create your views here.
 from django.template import RequestContext
 from rest_framework import viewsets
+from rest_framework.response import Response
 from rest_framework.serializers import HyperlinkedModelSerializer
 
 from web.fetch import Fetcher
@@ -89,6 +90,11 @@ def fetch(request):
 
     return redirect("/")
 
+
 class ChairmanViewSet(viewsets.ModelViewSet):
-    queryset = build_chairman_list()
     serializer_class = ChairmanSerializer
+
+    def list(self, request, *args, **kwargs):
+        serializer = ChairmanSerializer(
+            instance=build_chairman_list(), many=True)
+        return Response(serializer.data)
