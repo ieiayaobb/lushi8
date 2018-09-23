@@ -37,10 +37,6 @@ from web import views
 router = routers.DefaultRouter()
 router.register(r'chairmans', views.ChairmanViewSet)
 
-from web.fetch import Fetcher
-
-fetcher = Fetcher()
-
 from django.views import static
 
 
