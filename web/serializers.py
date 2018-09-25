@@ -6,5 +6,5 @@ class ChairmanSerializer(serializers.Serializer):
     href = serializers.CharField(max_length=256)
     title = serializers.CharField(max_length=256)
     img = serializers.CharField(max_length=256)
-    num = serializers.CharField(max_length=256)
+    num = serializers.IntegerField()
     type = serializers.CharField(max_length=256)

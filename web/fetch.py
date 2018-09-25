@@ -99,10 +99,11 @@ class Fetcher():
             img = re.search('data-original=".*?"', group).group().lstrip('data-original="').rstrip('"')
             chairman.set("img", img)
 
+            print group
             if re.search('</i>[\s\S]*?</span>', group):
                 name = re.search('</i>[\s\S]*?</span>', group).group().lstrip(
                     '</i>').rstrip('</span>')
-                chairman.set("name", name)
+                chairman.set("name", name.strip())
             else:
                 chairman.set("name", "")
 
@@ -249,10 +250,11 @@ class Fetcher():
             chairman.set('type', 'huya')
 
             group = each_content.group()
-            # print group
+            print group
             href = re.search('href=".*?"', group).group().lstrip('href=').strip('"')
             chairman.set("href", href)
-            chairman.set("id", chairman.type + str("_") + href.lstrip('http://www.huya.com/'))
+
+            chairman.set("id", chairman.type + str("_") + href.lstrip('https://www.huya.com/'))
 
             title = re.search('title=".*?"', group).group().lstrip('title="').rstrip('"')
             chairman.set("title", title)
@@ -263,6 +265,7 @@ class Fetcher():
 
             name = re.search('<i class="nick" title=".*?">', group).group().lstrip(
                 '<i class="nick" title="').rstrip('">')
+            # print name
             chairman.set("name", name)
 
             num = re.search('<i class="js-num">.*?</i>', group).group().lstrip(
@@ -408,14 +411,14 @@ class Fetcher():
 
 if __name__ == "__main__":
     fetcher = Fetcher()
-    fetcher.fetch_douyu()
+    # fetcher.fetch_douyu()
     fetcher.fetch_xiongmao()
-    fetcher.fetch_quanmin()
-    fetcher.fetch_zhanqi()
+    # fetcher.fetch_quanmin()
+    # fetcher.fetch_zhanqi()
     # fetcher.fetch_huomao()
-    fetcher.fetch_longzhu()
-    fetcher.fetch_cc()
-    fetcher.fetch_huya()
+    # fetcher.fetch_longzhu()
+    # fetcher.fetch_cc()
+    # fetcher.fetch_huya()
 
     for chairman in fetcher.chairmans:
         pass
