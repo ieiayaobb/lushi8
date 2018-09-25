@@ -46,7 +46,7 @@ urlpatterns = [
     url(r'^', include(web.urls)),
     url(r'^static/(?P<path>.*)$', static.serve, {'document_root': 'static'}),
 
-    url(r'^api/$', include(router.urls)),
+    url(r'^api/', include(router.urls)),
 
     # url(r'^api/chairmans/$', fetcher.chairmans, name='chairman-list'),
     # url(r'^api/chairmans/(?P<id>[A-Za-z0-9_]+)/$', chairman_detail, name='chairman-detail'),
