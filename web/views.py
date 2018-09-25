@@ -92,7 +92,7 @@ def fetch(request):
     return redirect("/")
 
 
-class ChairmanViewSet(viewsets.ModelViewSet):
+class ChairmanViewSet(viewsets.ViewSet):
     serializer_class = ChairmanSerializer
 
     def list(self, request, *args, **kwargs):
