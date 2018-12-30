@@ -57,37 +57,37 @@ def build_chairman_list():
 
 
 def fetch(request):
-    leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
+    try:
+        leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
-    query = leancloud.Query('Chairman')
+        query = leancloud.Query('Chairman')
 
-    allDataCompleted = False
-    batch = 0
-    limit = 1000
-    while not allDataCompleted:
-        query.limit(limit)
-        query.skip(batch * limit)
-        query.add_ascending('createdAt')
-        resultList = query.find()
-        if len(resultList) < limit:
-            allDataCompleted = True
-            leancloud.Object.destroy_all(resultList)
-        batch += 1
+        allDataCompleted = False
+        batch = 0
+        limit = 1000
+        while not allDataCompleted:
+            query.limit(limit)
+            query.skip(batch * limit)
+            query.add_ascending('createdAt')
+            resultList = query.find()
+            if len(resultList) < limit:
+                allDataCompleted = True
+                leancloud.Object.destroy_all(resultList)
+            batch += 1
 
-    fetcher = Fetcher()
-    fetcher.fetch_cc()
-    fetcher.fetch_douyu()
-    fetcher.fetch_longzhu()
-    fetcher.fetch_quanmin()
-    fetcher.fetch_xiongmao()
-    fetcher.fetch_zhanqi()
-    fetcher.fetch_huya()
+        fetcher = Fetcher()
+        fetcher.fetch_cc()
+        fetcher.fetch_douyu()
+        fetcher.fetch_longzhu()
+        # fetcher.fetch_quanmin()
+        fetcher.fetch_xiongmao()
+        fetcher.fetch_zhanqi()
+        fetcher.fetch_huya()
 
-    for chairman in fetcher.chairmans:
-        try:
+        for chairman in fetcher.chairmans:
             chairman.save()
-        except Exception, e:
-            print e
+    except Exception, e:
+        print e
 
     return redirect("/")
 
