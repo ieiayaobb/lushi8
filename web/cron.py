@@ -9,7 +9,7 @@ from django.core.cache import cache
 import time
 
 import web
-from lushi.settings import REDIS_PASSWORD, REDIS_DB, REDIS_HOST
+# from lushi.settings import REDIS_PASSWORD, REDIS_DB, REDIS_HOST
 
 from web.fetch import Fetcher
 
@@ -25,7 +25,7 @@ def refresh_rank():
     fetcher.fetch_cc()
     fetcher.fetch_douyu()
     fetcher.fetch_longzhu()
-    fetcher.fetch_quanmin()
+    # fetcher.fetch_quanmin()
     fetcher.fetch_xiongmao()
     fetcher.fetch_zhanqi()
     fetcher.fetch_huya()

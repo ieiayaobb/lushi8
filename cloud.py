@@ -31,7 +31,7 @@ def fetch(**params):
     fetcher.fetch_cc()
     fetcher.fetch_douyu()
     fetcher.fetch_longzhu()
-    fetcher.fetch_quanmin()
+    # fetcher.fetch_quanmin()
     fetcher.fetch_xiongmao()
     fetcher.fetch_zhanqi()
     fetcher.fetch_huya()
