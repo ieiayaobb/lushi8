@@ -118,44 +118,6 @@ class Fetcher():
                 chairman.set("num", int(num))
             self.chairmans.append(chairman)
 
-    def fetch_quanmin(self):
-        print 'fetch quanmin'
-
-        url = 'http://www.quanmin.tv/json/categories/heartstone/list.json?t=24468018'
-
-        session = requests.Session()
-        response = session.get(url, verify=False)
-
-        base_url = 'http://www.quanmin.tv/v/'
-        for each in response.json()['data']:
-            chairman = self.Chairman()
-            chairman.type = 'quanmin'
-            chairman.set('type', 'quanmin')
-
-            # chairman.objectId = (chairman.type + str("_") + each['uid'])
-
-            # chairman.title = each['title']
-            # chairman.href = base_url + each['uid']
-            # chairman.img = each['thumb']
-            # chairman.name = each['nick']
-            # chairman.set_num(str(each['follow']))
-
-            chairman.set("id", (chairman.type + str("_") + each['uid']))
-            chairman.set("title", each['title'])
-            chairman.set("href", base_url + each['uid'])
-            chairman.set("img", each['thumb'])
-            chairman.set("name", each['nick'])
-
-            num = str(each['follow'])
-
-            if '万' in num:
-                chairman.set("num", int(round(float(num.replace('万', '').replace('\r', '').replace('\n', '')) * 10000)))
-            else:
-                chairman.set("num", int(num))
-
-            self.chairmans.append(chairman)
-
-
     def fetch_zhanqi(self):
         print 'fetch zhangqi'
 
@@ -413,7 +375,6 @@ if __name__ == "__main__":
     fetcher = Fetcher()
     # fetcher.fetch_douyu()
     fetcher.fetch_xiongmao()
-    # fetcher.fetch_quanmin()
     # fetcher.fetch_zhanqi()
     # fetcher.fetch_huomao()
     # fetcher.fetch_longzhu()
