@@ -3,33 +3,5 @@ language: python
 python:
   - "2.7"
 
-services: postgresql
-
 install:
   - pip install -r requirements.txt
-  - pip install -r requirements-dev.txt
-
-before_script:
-  - flake8 .
-  - psql -c "CREATE DATABASE mydb;" -U postgres
-  - psql -c "CREATE USER myuser WITH PASSWORD 'password';" -U postgres
-  - psql -c "ALTER USER myuser CREATEDB;" -U postgres
-  - python manage.py migrate
-
-script:
-  - pytest --nomigrations
-
-addons:
-  postgresql: "9.6"
-
-deploy:
-  provider: elasticbeanstalk
-  access_key_id: $ACCESSKEYID
-  secret_access_key:
-    secure: "$SECRETACCESSKEY"
-  region: "us-east-1"
-  app: "myapp"
-  env: "myapp-prod"
-  bucket_name: "myapp"
-  on:
-    branch: master
