@@ -8,9 +8,6 @@ import requests
 
 import sys
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
 # import urllib3
 # urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # urllib3.disable_warnings()
