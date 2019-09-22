@@ -18,4 +18,4 @@ deploy:
   env: "Lushiba-env"
   bucket_name: "elasticbeanstalk-us-east-1-524356207981"
   on:
-    branch: master
+    branch: develop
