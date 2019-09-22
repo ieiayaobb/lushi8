@@ -8,3 +8,14 @@ install:
 
 script:
   -
+
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: AKIAXUFQQYVW5FKPLO5G
+  secret_access_key: ${SECRET_ACCESS_KEY}
+  region: "us-east-1"
+  app: "lushiba"
+  env: "Lushiba-env"
+  bucket_name: "elasticbeanstalk-us-east-1-524356207981"
+  on:
+    branch: master
