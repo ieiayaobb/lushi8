@@ -10,9 +10,6 @@ from rest_framework.serializers import HyperlinkedModelSerializer
 
 from web.fetch import Fetcher
 
-from settings import LEAN_CLOUD_ID, LEAN_CLOUD_SECRET
-import leancloud
-
 # @api_view(('GET',))
 # def api_root(request, format=None):
 #     return Response({
@@ -31,13 +28,8 @@ def get_index(request):
 
 
 def build_chairman_list():
-    leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
-
-    Chairman = leancloud.Object.extend('Chairman')
-    query = Chairman.query
-    query.select('type', 'href', 'id', 'title', 'img', 'name', 'num')
-    query.add_descending('num')
-    query_list = query.find()
+    Chairman = {}
+    query_list = []
 
     chairmans = []
 
@@ -58,23 +50,6 @@ def build_chairman_list():
 
 def fetch(request):
     try:
-        leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
-
-        query = leancloud.Query('Chairman')
-
-        allDataCompleted = False
-        batch = 0
-        limit = 1000
-        while not allDataCompleted:
-            query.limit(limit)
-            query.skip(batch * limit)
-            query.add_ascending('createdAt')
-            resultList = query.find()
-            if len(resultList) < limit:
-                allDataCompleted = True
-                leancloud.Object.destroy_all(resultList)
-            batch += 1
-
         fetcher = Fetcher()
         fetcher.fetch_cc()
         fetcher.fetch_douyu()
@@ -86,8 +61,8 @@ def fetch(request):
 
         for chairman in fetcher.chairmans:
             chairman.save()
-    except Exception, e:
-        print e
+    except Exception as e:
+        print(e)
 
     return redirect("/")
 

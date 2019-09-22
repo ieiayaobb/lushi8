@@ -10,11 +10,6 @@ import sys
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
-import leancloud
-
-from settings import LEAN_CLOUD_ID, LEAN_CLOUD_SECRET
-
-leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 
 # import urllib3
 # urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -22,13 +17,11 @@ leancloud.init(LEAN_CLOUD_ID, LEAN_CLOUD_SECRET)
 logging.captureWarnings(True)
 
 class Fetcher():
-    Chairman = leancloud.Object.extend('Chairman')
-
     def __init__(self):
         self.chairmans = []
 
     def fetch_douyu(self):
-        print 'fetch douyu'
+        print('fetch douyu')
 
         url = 'http://www.douyu.com/directory/game/How'
 
@@ -39,7 +32,7 @@ class Fetcher():
         # print response.content.decode('utf8')
         for each_content in re.finditer('<a class="play-list-link"[\s\S]*?>([\s\S]*?)<\/a>', response.content.decode('utf8')):
             try:
-                chairman = self.Chairman()
+                chairman = {}
                 chairman.type = 'douyu'
                 chairman.set('type', 'douyu')
 
@@ -68,11 +61,11 @@ class Fetcher():
 
                 self.chairmans.append(chairman)
                 # print chairman
-            except Exception, e:
-                print e
+            except Exception as e:
+                print(e)
 
     def fetch_xiongmao(self):
-        print 'fetch xiongmao'
+        print('fetch xiongmao')
 
         url = 'http://www.panda.tv/cate/hearthstone'
 
@@ -81,7 +74,7 @@ class Fetcher():
 
         base_url = 'http://www.panda.tv/'
         for each_content in re.finditer('<a href=".*?" class="video-list-item-wrap"([\s\S]*?)<\/a>', response.content.decode('utf8')):
-            chairman = self.Chairman()
+            chairman = {}
             chairman.type = 'panda'
             chairman.set('type', 'panda')
 
@@ -99,7 +92,6 @@ class Fetcher():
             img = re.search('data-original=".*?"', group).group().lstrip('data-original="').rstrip('"')
             chairman.set("img", img)
 
-            print group
             if re.search('</i>[\s\S]*?</span>', group):
                 name = re.search('</i>[\s\S]*?</span>', group).group().lstrip(
                     '</i>').rstrip('</span>')
@@ -119,7 +111,7 @@ class Fetcher():
             self.chairmans.append(chairman)
 
     def fetch_zhanqi(self):
-        print 'fetch zhangqi'
+        print('fetch zhangqi')
 
         url = 'http://www.zhanqi.tv/chns/blizzard/how'
 
@@ -133,7 +125,7 @@ class Fetcher():
             group = each_content.group()
             href = re.search('href=".*?"', group).group().lstrip('href="').rstrip('"')
             if href != '${url}':
-                chairman = self.Chairman()
+                chairman = {}
                 chairman.type = 'zhanqi'
                 chairman.set('type', 'zhanqi')
 
@@ -198,7 +190,7 @@ class Fetcher():
     #         print chairman
 
     def fetch_huya(self):
-        print 'fetch huya'
+        print('fetch huya')
 
         url = 'http://www.huya.com/g/hearthstone'
 
@@ -207,12 +199,11 @@ class Fetcher():
         # print response.content
         for each_content in re.finditer('<li class="game-live-item"([\s\S]*?)<\/li>',
                                         response.content.decode('utf8')):
-            chairman = self.Chairman()
+            chairman = {}
             chairman.type = 'huya'
             chairman.set('type', 'huya')
 
             group = each_content.group()
-            print group
             href = re.search('href=".*?"', group).group().lstrip('href=').strip('"')
             chairman.set("href", href)
 
@@ -242,7 +233,7 @@ class Fetcher():
             # print chairman
 
     def fetch_longzhu(self):
-        print 'fetch longzhu'
+        print('fetch longzhu')
 
         url = 'http://longzhu.com/channels/hs?from=figame'
 
@@ -251,7 +242,7 @@ class Fetcher():
         # print response.content.decode('utf8')
         for each_content in re.finditer('<a href=".*? class="livecard"([\s\S]*?)<\/a>',
                                         response.content.decode('utf8')):
-            chairman = self.Chairman()
+            chairman = {}
             chairman.type = 'longzhu'
             chairman.set('type', 'longzhu')
 
@@ -284,7 +275,7 @@ class Fetcher():
             self.chairmans.append(chairman)
 
     def fetch_cc(self):
-        print 'fetch cc'
+        print('fetch cc')
         url = 'http://cc.163.com/category/list/?gametype=1005&format=json&start=0&size=100'
 
         session = requests.Session()
@@ -293,7 +284,7 @@ class Fetcher():
         base_url = 'http://cc.163.com/'
         # print response.json()
         for each in response.json()['lives']:
-            chairman = self.Chairman()
+            chairman = {}
             chairman.type = 'cc'
             chairman.set('type', 'cc')
 
@@ -324,20 +315,19 @@ class Fetcher():
             # print chairman
 
     def fetch_cc_old(self):
-        print 'fetch cc'
+        print('fetch cc')
         url = 'http://cc.163.com/category/list/?gametype=1005'
         session = requests.Session()
         response = session.get(url, verify=False)
 
         base_url = 'http://cc.163.com/'
-        print response.content.decode('utf8')
         for each_content in re.finditer('<li class="game-item js-game-item">([\s\S]*?)<\/li>',
                                         response.content.decode('utf8')):
             group = each_content.group()
             href = re.search('href=".*?"', group).group().lstrip('href="/').rstrip('/"')
 
             if href != '{[value.ccid]}':
-                chairman = self.Chairman()
+                chairman = {}
                 chairman.type = 'cc'
                 chairman.set('type', 'cc')
 
